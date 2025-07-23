@@ -17,16 +17,16 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Kasus</label>
+                            <label>Pelapor</label>
                             <input type="text" class="form-control" 
-                                   value="{{ $kasusSatgas->kasus->kode_pengaduan }} - {{ Str::limit($kasusSatgas->kasus->deskripsi_kasus, 50) }}" 
+                                   value="{{ $kasusSatgas->pelapor->nama }}" 
                                    disabled>
                         </div>
 
                         <div class="form-group">
-                            <label>Satgas</label>
+                            <label>Ruang</label>
                             <input type="text" class="form-control" 
-                                   value="{{ $kasusSatgas->satgas->nama }}" 
+                                   value="{{ $kasusSatgas->ruang->nama }}" 
                                    disabled>
                         </div>
 

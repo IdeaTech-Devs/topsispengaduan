@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class PengaduanController extends Controller
 {
+    public function create()
+    {
+        return view('Pelapor.create_pengaduan');
+    }
+
     public function store(Request $request)
     {
         try {
@@ -18,104 +24,63 @@ class PengaduanController extends Controller
             $request->validate([
                 'nama_lengkap' => 'required|string|max:100',
                 'nama_panggilan' => 'required|string|max:50',
-                'unsur' => 'required|string|max:100',
-                'melapor_sebagai' => 'required|string|max:50',
-                'bukti_identitas' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',
-                'fakultas' => 'required|string|max:50',
-                'departemen_prodi' => 'nullable|string|max:50',
-                'unit_kerja' => 'nullable|string|max:50',
                 'email' => 'required|email|max:100',
                 'no_wa' => 'required|string|max:15',
-                'hubungan_korban' => 'required|string|max:50',
-                'jenis_masalah' => 'required|string|in:bullying,kekerasan seksual,pelecehan verbal,diskriminasi,cyberbullying,lainnya',
-                'deskripsi_kasus' => 'required|string',
-                'bukti_kasus' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
-                'urgensi' => 'required|in:segera,dalam beberapa hari,tidak mendesak',
-                'dampak' => 'required|in:sangat besar,sedang,kecil',
+                'judul_pengaduan' => 'required|string|max:255',
+                'deskripsi' => 'required|string',
+                'lokasi_fasilitas' => 'required|string|max:255',
+                'jenis_fasilitas' => 'required|string|max:255',
+                'tingkat_urgensi' => 'required|in:Rendah,Sedang,Tinggi',
+                'foto_bukti' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             ]);
 
             DB::beginTransaction();
-
-            // Proses unsur lainnya
-            $unsur = $request->unsur === 'lainnya' ? $request->other : $request->unsur;
-            
-            // Proses melapor sebagai lainnya
-            $melaporSebagai = $request->melapor_sebagai === 'lainnya' ? $request->melapor_other : $request->melapor_sebagai;
-            
-            // Proses hubungan korban lainnya
-            $hubunganKorban = $request->hubungan_korban === 'lainnya' ? $request->hubungan_other : $request->hubungan_korban;
 
             // Cek pelapor yang sudah ada
             $existingPelapor = Pelapor::where('email', $request->email)->first();
 
             if ($existingPelapor) {
-                // Update pelapor yang ada
                 $existingPelapor->update([
                     'nama_lengkap' => $request->nama_lengkap,
                     'nama_panggilan' => $request->nama_panggilan,
-                    'unsur' => $unsur,
-                    'melapor_sebagai' => $melaporSebagai,
-                    'fakultas' => $request->fakultas,
-                    'departemen_prodi' => $request->departemen_prodi,
-                    'unit_kerja' => $request->unit_kerja,
                     'no_wa' => $request->no_wa,
-                    'hubungan_korban' => $hubunganKorban,
                 ]);
-
-                if ($request->hasFile('bukti_identitas')) {
-                    if ($existingPelapor->bukti_identitas) {
-                        Storage::disk('public')->delete($existingPelapor->bukti_identitas);
-                    }
-                    $buktiIdentitasPath = $request->file('bukti_identitas')->store('bukti_identitas', 'public');
-                    $existingPelapor->bukti_identitas = $buktiIdentitasPath;
-                    $existingPelapor->save();
-                }
-
                 $pelapor = $existingPelapor;
             } else {
-                // Buat pelapor baru
-                $buktiIdentitasPath = $request->file('bukti_identitas')->store('bukti_identitas', 'public');
-                
                 $pelapor = Pelapor::create([
                     'nama_lengkap' => $request->nama_lengkap,
                     'nama_panggilan' => $request->nama_panggilan,
-                    'unsur' => $unsur,
-                    'melapor_sebagai' => $melaporSebagai,
-                    'bukti_identitas' => $buktiIdentitasPath,
-                    'fakultas' => $request->fakultas,
-                    'departemen_prodi' => $request->departemen_prodi,
-                    'unit_kerja' => $request->unit_kerja,
                     'email' => $request->email,
                     'no_wa' => $request->no_wa,
-                    'hubungan_korban' => $hubunganKorban,
                 ]);
+                if (!$pelapor) {
+                    throw new \Exception('Gagal membuat pelapor, data tidak lengkap.');
+                }
             }
 
-            // Proses bukti kasus
-            $buktiKasusPath = null;
-            if ($request->hasFile('bukti_kasus')) {
-                $buktiKasusPath = $request->file('bukti_kasus')->store('bukti_kasus', 'public');
-            }
+            // Upload foto bukti
+            $foto_bukti = $request->file('foto_bukti')->store('public/foto_bukti');
+            $foto_bukti = str_replace('public/', '', $foto_bukti);
 
-            // Buat kasus baru
+            // Buat pengaduan baru
             $kasus = Kasus::create([
-                'id_pelapor' => $pelapor->id_pelapor,
-                'kode_pengaduan' => Kasus::generateKodePengaduan(),
-                'jenis_masalah' => $request->jenis_masalah,
-                'urgensi' => $request->urgensi,
-                'dampak' => $request->dampak,
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_pengaduan' => now(),
-                'deskripsi_kasus' => $request->deskripsi_kasus,
-                'bukti_kasus' => $buktiKasusPath,
-                'asal_fakultas' => $request->fakultas,
+                'pelapor_id' => $pelapor->id_pelapor,
+                'no_pengaduan' => 'FAC' . str_pad(Kasus::count() + 1, 3, '0', STR_PAD_LEFT),
+                'judul_pengaduan' => $request->judul_pengaduan,
+                'deskripsi' => $request->deskripsi,
+                'lokasi_fasilitas' => $request->lokasi_fasilitas,
+                'jenis_fasilitas' => $request->jenis_fasilitas,
+                'tingkat_urgensi' => $request->tingkat_urgensi,
+                'status' => 'Menunggu',
+                'foto_bukti' => $foto_bukti,
+                'tanggal_pengaduan' => Carbon::now()
             ]);
 
             DB::commit();
 
             return redirect()->route('pengaduan.success')
-                ->with('success', 'Pengaduan berhasil diajukan!')
-                ->with('kode_pengaduan', $kasus->kode_pengaduan);
+                ->with('success', 'Pengaduan fasilitas berhasil diajukan!')
+                ->with('no_pengaduan', $kasus->no_pengaduan);
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -127,10 +92,8 @@ class PengaduanController extends Controller
         }
     }
 
-    // Tambahkan method untuk menampilkan halaman success
     public function success()
     {
-        // Jika tidak ada pesan success di session, redirect ke form
         if (!session('success')) {
             return redirect()->route('pengaduan.create');
         }
@@ -146,28 +109,26 @@ class PengaduanController extends Controller
     public function cekStatus(Request $request)
     {
         $request->validate([
-            'kode_pengaduan' => 'required|string|size:6'
+            'no_pengaduan' => 'required|string'
         ], [
-            'kode_pengaduan.required' => 'Kode pengaduan harus diisi',
-            'kode_pengaduan.size' => 'Kode pengaduan harus 6 karakter'
+            'no_pengaduan.required' => 'Nomor pengaduan harus diisi'
         ]);
 
-        $kasus = Kasus::where('kode_pengaduan', $request->kode_pengaduan)->first();
+        $kasus = Kasus::where('no_pengaduan', $request->no_pengaduan)->first();
 
         if (!$kasus) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Kode pengaduan tidak ditemukan');
+                ->with('error', 'Nomor pengaduan tidak ditemukan');
         }
 
-        // Redirect ke halaman detail status dengan kode pengaduan
-        return redirect()->route('pengaduan.detail-status', $kasus->kode_pengaduan);
+        return redirect()->route('pengaduan.detail-status', $kasus->no_pengaduan);
     }
 
-    public function detailStatus($kode)
+    public function detailStatus($nomor)
     {
-        $kasus = Kasus::where('kode_pengaduan', $kode)
-            ->with('pelapor') // Load relasi pelapor jika diperlukan
+        $kasus = Kasus::where('no_pengaduan', $nomor)
+            ->with(['pelapor', 'satgas', 'kasusSatgas'])
             ->firstOrFail();
 
         return view('Pelapor.detail_status', compact('kasus'));

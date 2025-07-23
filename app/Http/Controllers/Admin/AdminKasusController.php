@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kasus;
-use App\Models\Kemahasiswaan;
 use App\Models\Pelapor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +13,7 @@ class AdminKasusController extends Controller
 {
     public function index()
     {
-        $kasus = Kasus::with(['kemahasiswaan', 'pelapor'])
+        $kasus = Kasus::with(['pelapor'])
             ->orderBy('created_at', 'desc')
             ->get();
         return view('admin.kasus.index', compact('kasus'));
@@ -22,42 +21,33 @@ class AdminKasusController extends Controller
 
     public function create()
     {
-        $kemahasiswaan = Kemahasiswaan::all();
         $pelapor = Pelapor::all();
-        return view('admin.kasus.create', compact('kemahasiswaan', 'pelapor'));
+        return view('admin.kasus.create', compact('pelapor'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'kode_pengaduan' => 'required|string|max:6|unique:kasus',
-            'id_kemahasiswaan' => 'nullable|exists:kemahasiswaan,id_kemahasiswaan',
-            'id_pelapor' => 'required|exists:pelapor,id_pelapor',
-            'jenis_masalah' => 'required|in:bullying,kekerasan seksual,pelecehan verbal,diskriminasi,cyberbullying,lainnya',
-            'urgensi' => 'required|in:segera,dalam beberapa hari,tidak mendesak',
-            'dampak' => 'required|in:sangat besar,sedang,kecil',
-            'status_pengaduan' => 'required|in:perlu dikonfirmasi,dikonfirmasi,ditolak,proses satgas,selesai',
-            'tanggal_konfirmasi' => 'nullable|date',
-            'tanggal_pengaduan' => 'required|date',
-            'deskripsi_kasus' => 'required|string',
-            'bukti_kasus' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
-            'asal_fakultas' => 'required|string|max:50',
-            'penangan_kasus' => 'nullable|string',
-            'catatan_penanganan' => 'nullable|string'
+            'no_pengaduan' => 'required|string|unique:kasus',
+            'pelapor_id' => 'required|exists:pelapor,id_pelapor',
+            'judul_pengaduan' => 'required|string',
+            'deskripsi' => 'required|string',
+            'lokasi_fasilitas' => 'required|string',
+            'jenis_fasilitas' => 'required|string',
+            'tingkat_urgensi' => 'required|in:Rendah,Sedang,Tinggi',
+            'foto_bukti' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
+            'tanggal_pengaduan' => 'required|date'
         ]);
 
-        if ($request->hasFile('bukti_kasus')) {
-            $file = $request->file('bukti_kasus');
+        if ($request->hasFile('foto_bukti')) {
+            $file = $request->file('foto_bukti');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/bukti_kasus', $filename);
-            $validated['bukti_kasus'] = 'bukti_kasus/' . $filename;
+            $file->storeAs('public/foto_bukti', $filename);
+            $validated['foto_bukti'] = 'foto_bukti/' . $filename;
         }
 
-        // Set tanggal konfirmasi jika status dikonfirmasi
-        if ($validated['status_pengaduan'] === 'dikonfirmasi' && !isset($validated['tanggal_konfirmasi'])) {
-            $validated['tanggal_konfirmasi'] = Carbon::now();
-        }
-
+        $validated['status'] = 'Menunggu';
+        
         Kasus::create($validated);
         return redirect()->route('admin.kasus.index')
             ->with('success', 'Data kasus berhasil ditambahkan');
@@ -65,16 +55,15 @@ class AdminKasusController extends Controller
 
     public function show($id)
     {
-        $kasus = Kasus::with(['kemahasiswaan', 'pelapor'])->findOrFail($id);
+        $kasus = Kasus::with(['pelapor'])->findOrFail($id);
         return view('admin.kasus.show', compact('kasus'));
     }
 
     public function edit($id)
     {
         $kasus = Kasus::findOrFail($id);
-        $kemahasiswaan = Kemahasiswaan::all();
         $pelapor = Pelapor::all();
-        return view('admin.kasus.edit', compact('kasus', 'kemahasiswaan', 'pelapor'));
+        return view('admin.kasus.edit', compact('kasus', 'pelapor'));
     }
 
     public function update(Request $request, $id)
@@ -82,38 +71,37 @@ class AdminKasusController extends Controller
         $kasus = Kasus::findOrFail($id);
         
         $validated = $request->validate([
-            'kode_pengaduan' => 'required|string|max:6|unique:kasus,kode_pengaduan,'.$id.',id_kasus',
-            'id_kemahasiswaan' => 'nullable|exists:kemahasiswaan,id_kemahasiswaan',
-            'id_pelapor' => 'required|exists:pelapor,id_pelapor',
-            'jenis_masalah' => 'required|in:bullying,kekerasan seksual,pelecehan verbal,diskriminasi,cyberbullying,lainnya',
-            'urgensi' => 'required|in:segera,dalam beberapa hari,tidak mendesak',
-            'dampak' => 'required|in:sangat besar,sedang,kecil',
-            'status_pengaduan' => 'required|in:perlu dikonfirmasi,dikonfirmasi,ditolak,proses satgas,selesai',
-            'tanggal_konfirmasi' => 'nullable|date',
+            'no_pengaduan' => 'required|string|unique:kasus,no_pengaduan,'.$id.',id',
+            'pelapor_id' => 'required|exists:pelapor,id_pelapor',
+            'judul_pengaduan' => 'required|string',
+            'deskripsi' => 'required|string',
+            'lokasi_fasilitas' => 'required|string',
+            'jenis_fasilitas' => 'required|string',
+            'tingkat_urgensi' => 'required|in:Rendah,Sedang,Tinggi',
+            'status' => 'required|in:Menunggu,Diproses,Selesai,Ditolak',
+            'foto_bukti' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
             'tanggal_pengaduan' => 'required|date',
-            'deskripsi_kasus' => 'required|string',
-            'bukti_kasus' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
-            'asal_fakultas' => 'required|string|max:50',
-            'penangan_kasus' => 'nullable|string',
-            'catatan_penanganan' => 'nullable|string'
+            'catatan_admin' => 'nullable|string',
+            'catatan_satgas' => 'nullable|string'
         ]);
 
-        if ($request->hasFile('bukti_kasus')) {
-            if ($kasus->bukti_kasus) {
-                Storage::delete('public/' . $kasus->bukti_kasus);
+        if ($request->hasFile('foto_bukti')) {
+            if ($kasus->foto_bukti) {
+                Storage::delete('public/' . $kasus->foto_bukti);
             }
             
-            $file = $request->file('bukti_kasus');
+            $file = $request->file('foto_bukti');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/bukti_kasus', $filename);
-            $validated['bukti_kasus'] = 'bukti_kasus/' . $filename;
+            $file->storeAs('public/foto_bukti', $filename);
+            $validated['foto_bukti'] = 'foto_bukti/' . $filename;
         }
 
-        // Set tanggal konfirmasi jika status berubah menjadi dikonfirmasi
-        if ($validated['status_pengaduan'] === 'dikonfirmasi' && 
-            $kasus->status_pengaduan !== 'dikonfirmasi' && 
-            !isset($validated['tanggal_konfirmasi'])) {
-            $validated['tanggal_konfirmasi'] = Carbon::now();
+        if ($validated['status'] === 'Diproses' && !$kasus->tanggal_penanganan) {
+            $validated['tanggal_penanganan'] = Carbon::now();
+        }
+
+        if ($validated['status'] === 'Selesai' && !$kasus->tanggal_selesai) {
+            $validated['tanggal_selesai'] = Carbon::now();
         }
 
         $kasus->update($validated);
@@ -125,8 +113,8 @@ class AdminKasusController extends Controller
     {
         $kasus = Kasus::findOrFail($id);
         
-        if ($kasus->bukti_kasus) {
-            Storage::delete('public/' . $kasus->bukti_kasus);
+        if ($kasus->foto_bukti) {
+            Storage::delete('public/' . $kasus->foto_bukti);
         }
         
         $kasus->delete();

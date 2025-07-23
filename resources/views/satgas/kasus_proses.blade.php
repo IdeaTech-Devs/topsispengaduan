@@ -57,7 +57,7 @@
                         <tbody>
                             @foreach($kasusProses as $kasus)
                                 <tr>
-                                    <td>{{ $kasus->kasus->kode_pengaduan }}</td>
+                                    <td>{{ $kasus->kasus->no_pengaduan }}</td>
                                     <td>{{ ucfirst($kasus->kasus->jenis_masalah) }}</td>
                                     <td>{{ \Carbon\Carbon::parse($kasus->kasus->tanggal_pengaduan)->format('d/m/Y') }}</td>
                                     <td>{{ $kasus->kasus->asal_fakultas }}</td>

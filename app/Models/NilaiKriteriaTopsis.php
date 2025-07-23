@@ -8,6 +8,7 @@ class NilaiKriteriaTopsis extends Model
 {
     protected $table = 'nilai_kriteria_topsis';
     protected $primaryKey = 'id_nilai';
+    public $timestamps = true;
     
     protected $fillable = [
         'id_kriteria',

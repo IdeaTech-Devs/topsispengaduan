@@ -29,61 +29,27 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No</th>
                             <th>Nama Lengkap</th>
-                            <th>Unsur</th>
-                            <th>Melapor Sebagai</th>
-                            <th>Fakultas</th>
-                            <th>Email</th>
-                            <th>No. WhatsApp</th>
-                            <th>Hubungan dengan Korban</th>
+                            <th>Nama Panggilan</th>
+                            <th>Status</th>
+                            <th>Kontak</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($pelapor as $p)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $p->nama_lengkap }}
-                                <div class="small text-muted">{{ $p->nama_panggilan }}</div>
-                            </td>
+                            <td>{{ $p->nama_lengkap }}</td>
+                            <td>{{ $p->nama_panggilan }}</td>
                             <td>
-                                <span class="badge badge-{{ 
-                                    $p->unsur === 'dosen' ? 'primary' : 
-                                    ($p->unsur === 'mahasiswa' ? 'success' : 
-                                    ($p->unsur === 'tenaga kependidikan' ? 'info' : 'secondary')) 
-                                }}">
-                                    {{ ucfirst($p->unsur) }}
+                                <span class="badge badge-{{ $p->status_pelapor == 'staff' ? 'primary' : 'info' }}">
+                                    {{ ucfirst($p->status_pelapor) }}
                                 </span>
                             </td>
                             <td>
-                                <span class="badge badge-{{ 
-                                    $p->melapor_sebagai === 'korban' ? 'danger' : 
-                                    ($p->melapor_sebagai === 'saksi' ? 'info' : 'secondary') 
-                                }}">
-                                    {{ ucfirst($p->melapor_sebagai) }}
-                                </span>
+                                <a href="mailto:{{ $p->email }}">{{ $p->email }}</a>
+                                <div class="small text-muted">WA: {{ $p->no_wa }}</div>
                             </td>
-                            <td>
-                                {{ $p->fakultas }}
-                                @if($p->departemen_prodi)
-                                    <div class="small text-muted">{{ $p->departemen_prodi }}</div>
-                                @endif
-                                @if($p->unit_kerja)
-                                    <div class="small text-muted">{{ $p->unit_kerja }}</div>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="mailto:{{ $p->email }}" class="text-decoration-none">
-                                    {{ $p->email }}
-                                </a>
-                            </td>
-                            <td>
-                                <a href="https://wa.me/{{ $p->no_wa }}" target="_blank" class="text-decoration-none">
-                                    {{ $p->no_wa }}
-                                </a>
-                            </td>
-                            <td>{{ $p->hubungan_korban ? ucfirst($p->hubungan_korban) : '-' }}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a href="{{ route('admin.pelapor.show', $p->id_pelapor) }}" 
@@ -99,7 +65,7 @@
                                     <form action="{{ route('admin.pelapor.destroy', $p->id_pelapor) }}" 
                                           method="POST" 
                                           class="d-inline"
-                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pelapor ini?');">
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus pelapor ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" 

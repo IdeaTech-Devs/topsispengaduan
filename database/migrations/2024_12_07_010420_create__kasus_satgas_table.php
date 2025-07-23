@@ -9,28 +9,25 @@ return new class extends Migration
     public function up()
     {
         Schema::create('kasus_satgas', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_kasus');
-            $table->unsignedBigInteger('id_satgas');
-            $table->date('tanggal_tindak_lanjut');
-            $table->date('tanggal_tindak_selesai')->nullable();
-            $table->enum('status_tindak_lanjut', ['selesai', 'proses']);
-            
-            // Primary key
-            $table->primary(['id_kasus', 'id_satgas']);
-            
-            // Foreign keys
-            $table->foreign('id_kasus')
-                ->references('id_kasus')
+            $table->id();
+            $table->unsignedBigInteger('kasus_id');
+            $table->unsignedBigInteger('satgas_id');
+            $table->enum('status_penanganan', ['Belum ditangani', 'Sedang ditangani', 'Selesai']);
+            $table->text('catatan_penanganan')->nullable();
+            $table->timestamp('mulai_penanganan')->nullable();
+            $table->timestamp('selesai_penanganan')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('kasus_id')
+                  ->references('id')
                 ->on('kasus')
                 ->onDelete('cascade');
                 
-            $table->foreign('id_satgas')
+            $table->foreign('satgas_id')
                 ->references('id_satgas')
                 ->on('satgas')
                 ->onDelete('cascade');
-                
-            // Index
-            $table->index(['id_kasus', 'id_satgas']);
         });
     }
 

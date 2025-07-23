@@ -2,41 +2,45 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class KasusSatgas extends Pivot
+class KasusSatgas extends Model
 {
+    use HasFactory, SoftDeletes;
+
     protected $table = 'kasus_satgas';
     
-    public $timestamps = false;
-    
     protected $fillable = [
-        'id_kasus',
-        'id_satgas',
-        'tanggal_tindak_lanjut',
-        'tanggal_tindak_selesai',
-        'status_tindak_lanjut'
+        'kasus_id',
+        'satgas_id',
+        'status_penanganan',
+        'catatan_penanganan',
+        'mulai_penanganan',
+        'selesai_penanganan'
     ];
 
-    protected $casts = [
-        'tanggal_tindak_lanjut' => 'date',
-        'tanggal_tindak_selesai' => 'date'
+    protected $dates = [
+        'mulai_penanganan',
+        'selesai_penanganan',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     public function kasus()
     {
-        return $this->belongsTo(Kasus::class, 'id_kasus', 'id_kasus');
+        return $this->belongsTo(Kasus::class, 'kasus_id', 'id');
     }
 
     public function satgas()
     {
-        return $this->belongsTo(Satgas::class, 'id_satgas', 'id_satgas');
+        return $this->belongsTo(Satgas::class, 'satgas_id', 'id_satgas');
     }
 
-    public function kasusSatgas()
+    public function getStatusPenangananTextAttribute()
     {
-    return $this->hasMany(KasusSatgas::class, 'id_kasus', 'id_kasus');
+        return ucfirst(strtolower($this->status_penanganan));
     }
-
-
 } 

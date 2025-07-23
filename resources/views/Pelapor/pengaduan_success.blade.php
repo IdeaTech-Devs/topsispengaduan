@@ -12,12 +12,12 @@
                         <i class="fas fa-check"></i>
                     </div>
                     
-                    <h1 class="success-title">Pengaduan Berhasil!</h1>
+                    <h1 class="success-title">Pengaduan Fasilitas Berhasil!</h1>
                     
-                    @if(session('kode_pengaduan'))
+                    @if(session('no_pengaduan'))
                     <div class="success-code">
-                        <h4>Kode Pengaduan Anda</h4>
-                        <h2 class="mb-0" id="kodePengaduan">{{ session('kode_pengaduan') }}</h2>
+                        <h4>Kode Pengaduan Fasilitas Anda</h4>
+                        <h2 class="mb-0" id="kodePengaduan">{{ session('no_pengaduan') }}</h2>
                         <div class="mt-3">
                             <button class="btn btn-outline-primary btn-sm" onclick="copyKode()">
                                 <i class="fas fa-copy mr-2"></i>Salin Kode
@@ -29,11 +29,11 @@
                     <div class="success-message">
                         <p class="mb-1">
                             <i class="fas fa-info-circle text-info mr-2"></i>
-                            Terima kasih telah mengajukan pengaduan. Tim kami akan segera memproses laporan Anda.
+                            Terima kasih telah mengajukan pengaduan fasilitas. Tim Fasilitas akan segera memproses laporan Anda.
                         </p>
                         <p class="text-muted small">
                             <i class="fas fa-envelope mr-2"></i>
-                            Nomor pengaduan Anda akan dikirim melalui email yang telah didaftarkan.
+                            Nomor pengaduan fasilitas Anda akan dikirim melalui email yang telah didaftarkan.
                         </p>
                     </div>
 

@@ -42,7 +42,7 @@
                 <div class="sidebar-brand-icon">
                     <img src="{{asset('assets/img/logo.png')}}" alt="Logo" style="width: 40px; height: 40px;">
                 </div>
-                <div class="sidebar-brand-text mx-3">Pengaduan Satgas UNIB</div>
+                <div class="sidebar-brand-text mx-2">Pengaduan Fasilitas Klinik Inggit</div>
             </a>
 
             <!-- Nav Item - Dashboard -->
@@ -140,7 +140,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Universitas Bengkulu 2024</span>
+                        <span>Copyright &copy; Klinik Inggit 2025</span>
                     </div>
                 </div>
             </footer>

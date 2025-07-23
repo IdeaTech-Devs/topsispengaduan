@@ -6,8 +6,8 @@
 <div class="welcome-banner mb-4">
     <div class="row align-items-center">
         <div class="col-lg-8">
-            <h1 class="welcome-title">Selamat Datang di Layanan Pengaduan Satgas UNIB</h1>
-            <p class="welcome-subtitle">Laporkan kasus yang Anda alami atau ketahui. Kami siap membantu menangani masalah Anda dengan profesional dan rahasia.</p>
+            <h1 class="welcome-title">Selamat Datang di Layanan Pengaduan Fasilitas Klinik Inggit</h1>
+            <p class="welcome-subtitle">Laporkan masalah fasilitas yang Anda alami atau ketahui. Kami siap membantu menangani laporan Anda dengan profesional dan rahasia.</p>
         </div>
         <div class="col-lg-4 text-center">
             <img src="{{asset('assets/img/welcome.png')}}" alt="Welcome" class="welcome-image">
@@ -30,7 +30,7 @@
                                 <i class="fas fa-plus text-white"></i>
                             </div>
                             <h5>Buat Pengaduan Baru</h5>
-                            <p>Laporkan kasus atau masalah yang Anda alami</p>
+                            <p>Laporkan masalah fasilitas yang Anda alami</p>
                         </a>
                     </div>
                     <div class="col-md-4 mb-4">
@@ -39,7 +39,7 @@
                                 <i class="fas fa-search text-white"></i>
                             </div>
                             <h5>Cek Status Pengaduan</h5>
-                            <p>Pantau perkembangan laporan Anda</p>
+                            <p>Pantau perkembangan laporan fasilitas Anda</p>
                         </a>
                     </div>
                     <div class="col-md-4 mb-4">
@@ -48,7 +48,7 @@
                                 <i class="fas fa-book text-white"></i>
                             </div>
                             <h5>Panduan Pengaduan</h5>
-                            <p>Pelajari cara membuat pengaduan yang baik</p>
+                            <p>Pelajari cara membuat pengaduan fasilitas yang baik</p>
                         </a>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                         </div>
                         <div class="info-content">
                             <h6>Kerahasiaan Terjamin</h6>
-                            <p>Identitas pelapor akan dijaga kerahasiaannya dan hanya diketahui oleh tim Satgas</p>
+                            <p>Identitas pelapor akan dijaga kerahasiaannya dan hanya diketahui oleh Tim Fasilitas</p>
                         </div>
                     </div>
                     <div class="info-item">
@@ -81,7 +81,7 @@
                         </div>
                         <div class="info-content">
                             <h6>Penanganan 24 Jam</h6>
-                            <p>Tim Satgas siap menangani laporan Anda selama 24 jam</p>
+                            <p>Tim Fasilitas siap menangani laporan Anda selama 24 jam</p>
                         </div>
                     </div>
                     <div class="info-item">
@@ -90,7 +90,7 @@
                         </div>
                         <div class="info-content">
                             <h6>Tim Profesional</h6>
-                            <p>Ditangani oleh tim Satgas yang terlatih dan berpengalaman</p>
+                            <p>Ditangani oleh Tim Fasilitas yang terlatih dan berpengalaman</p>
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                     <div class="contact-item">
                         <i class="fas fa-phone-alt"></i>
                         <div>
-                            <h6>Hotline Satgas</h6>
+                            <h6>Hotline Fasilitas</h6>
                             <p>0812-3456-7890</p>
                         </div>
                     </div>
@@ -115,13 +115,13 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h6>Email</h6>
-                            <p>satgas@unib.ac.id</p>
+                            <p>fasilitas@klinik-inn.git</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
-                            <h6>Kantor Satgas</h6>
+                            <h6>Kantor Fasilitas</h6>
                             <p>Gedung Rektorat Lt. 1</p>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="panduanLabel">Panduan Pengaduan</h5>
+                <h5 class="modal-title" id="panduanLabel">Panduan Pengaduan Fasilitas</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -146,12 +146,12 @@
                     <div class="panduan-step">
                         <div class="step-number">1</div>
                         <h6>Persiapkan Informasi</h6>
-                        <p>Siapkan informasi detail tentang kasus yang akan dilaporkan</p>
+                        <p>Siapkan informasi detail tentang fasilitas yang akan dilaporkan</p>
                     </div>
                     <div class="panduan-step">
                         <div class="step-number">2</div>
-                        <h6>Pilih Jenis Masalah</h6>
-                        <p>Tentukan kategori yang sesuai dengan kasus Anda</p>
+                        <h6>Pilih Jenis Fasilitas</h6>
+                        <p>Tentukan kategori fasilitas yang sesuai dengan laporan Anda</p>
                     </div>
                     <div class="panduan-step">
                         <div class="step-number">3</div>

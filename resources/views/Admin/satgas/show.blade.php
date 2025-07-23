@@ -127,7 +127,7 @@
                                     <tbody>
                                         @foreach($kasusAktif as $kasus)
                                         <tr>
-                                            <td>{{ $kasus->kode_pengaduan }}</td>
+                                            <td>{{ $kasus->no_pengaduan }}</td>
                                             <td>{{ $kasus->jenis_masalah }}</td>
                                             <td>
                                                 <span class="badge badge-info">

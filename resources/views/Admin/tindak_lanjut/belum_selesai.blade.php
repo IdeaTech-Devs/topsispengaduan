@@ -44,7 +44,7 @@
                     @foreach($kasusBelumSelesai as $kasus)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $kasus->kode_pengaduan }}</td>
+                        <td>{{ $kasus->no_pengaduan }}</td>
                         <td>{{ $kasus->pelapor->nama_lengkap }}</td>
                         <td>{{ $kasus->jenis_masalah }}</td>
                         <td>

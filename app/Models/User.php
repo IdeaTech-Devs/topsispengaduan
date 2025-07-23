@@ -2,20 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'id_kemahasiswaan',
-        'id_satgas',
+        'name',
         'email',
         'password',
-        'role'
+        'role',
+        'admin_id',
+        'satgas_id',
+        'pelapor_id'
     ];
 
     protected $hidden = [
@@ -23,30 +26,28 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function kemahasiswaan()
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    public function admin()
     {
-        return $this->belongsTo(Kemahasiswaan::class, 'id_kemahasiswaan');
+        return $this->belongsTo(Admin::class, 'admin_id');
     }
 
     public function satgas()
     {
-        return $this->belongsTo(Satgas::class, 'id_satgas');
+        return $this->belongsTo(Satgas::class, 'satgas_id', 'id_satgas');
+    }
+
+    public function pelapor()
+    {
+        return $this->belongsTo(Pelapor::class, 'pelapor_id', 'id_pelapor');
     }
 
     public function hasRole($role)
     {
-        switch ($role) {
-            case 'kemahasiswaan':
-                return $this->id_kemahasiswaan !== null;
-            case 'satgas':
-                return $this->id_satgas !== null;
-            default:
-                return false;
-        }
+        return $this->role === $role;
     }
-
-    public function isAdmin()
-    {
-        return $this->role === 'admin';
-    }
-}
+} 

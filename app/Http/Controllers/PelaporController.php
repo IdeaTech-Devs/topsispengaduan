@@ -6,6 +6,8 @@ use App\Models\Pelapor;
 use App\Models\Kasus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\Ruang;
+use App\Models\Fasilitas;
 
 class PelaporController extends Controller
 {
@@ -16,7 +18,9 @@ class PelaporController extends Controller
 
     public function ajukanPengaduan()
     {
-        return view('pelapor.ajukan_pengaduan');
+        $ruang = Ruang::orderBy('nama_ruang')->get();
+        $jenisFasilitas = Fasilitas::select('jenis_fasilitas')->distinct()->pluck('jenis_fasilitas');
+        return view('pelapor.ajukan_pengaduan', compact('ruang', 'jenisFasilitas'));
     }
 
     public function lihatProgres()
@@ -29,40 +33,28 @@ class PelaporController extends Controller
         $request->validate([
             'nama_lengkap' => 'required|string|max:100',
             'nama_panggilan' => 'required|string|max:50',
-            'unsur' => 'required|string',
-            'email' => 'required|email',
+            'status_pelapor' => 'required|in:staff,pengunjung',
+            'email' => 'required|email|max:100',
             'no_wa' => 'required|string|max:15',
-            'bukti_identitas' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',
-            'melapor_sebagai' => 'required|string',
-            'hubungan_korban' => 'required|string',
-            'jenis_masalah' => 'required|string|in:bullying,kekerasan seksual,pelecehan verbal,diskriminasi,cyberbullying,lainnya',
-            'deskripsi_kasus' => 'required|string',
-            'urgensi' => 'required|string|in:segera,dalam beberapa hari,tidak mendesak',
-            'dampak' => 'required|string|in:sangat besar,sedang,kecil',
-            'fakultas' => 'required|string',
-            'bukti_kasus' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'judul_pengaduan' => 'required|string|max:255',
+            'lokasi_fasilitas' => 'required|string',
+            'jenis_fasilitas' => 'required|string',
+            'deskripsi_pengaduan' => 'required|string',
+            'tingkat_urgensi' => 'required|in:tinggi,sedang,rendah',
+            'foto_bukti' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         try {
-            // Upload bukti identitas
-            $buktiIdentitasPath = $request->file('bukti_identitas')->store('bukti_identitas', 'public');
+            // Upload foto bukti
+            $fotoBuktiPath = $request->file('foto_bukti')->store('foto_bukti', 'public');
             
-            // Upload bukti kasus jika ada
-            $buktiKasusPath = null;
-            if ($request->hasFile('bukti_kasus')) {
-                $buktiKasusPath = $request->file('bukti_kasus')->store('bukti_kasus', 'public');
-            }
-
             // Buat pelapor baru
             $pelapor = Pelapor::create([
                 'nama_lengkap' => $request->nama_lengkap,
                 'nama_panggilan' => $request->nama_panggilan,
-                'unsur' => $request->unsur === 'lainnya' ? $request->other : $request->unsur,
+                'status_pelapor' => $request->status_pelapor,
                 'email' => $request->email,
-                'no_hp' => $request->no_wa,
-                'bukti_identitas' => $buktiIdentitasPath,
-                'departemen_prodi' => $request->departemen_prodi,
-                'unit_kerja' => $request->unit_kerja,
+                'no_wa' => $request->no_wa
             ]);
 
             // Generate kode pengaduan
@@ -71,17 +63,15 @@ class PelaporController extends Controller
             // Buat kasus baru
             $kasus = Kasus::create([
                 'id_pelapor' => $pelapor->id_pelapor,
-                'kode_pengaduan' => $kodePengaduan,
-                'jenis_masalah' => $request->jenis_masalah,
-                'deskripsi_kasus' => $request->deskripsi_kasus,
-                'urgensi' => $request->urgensi,
-                'dampak' => $request->dampak,
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_pengaduan' => now(),
-                'asal_fakultas' => $request->fakultas,
-                'bukti_kasus' => $buktiKasusPath,
-                'melapor_sebagai' => $request->melapor_sebagai === 'lainnya' ? $request->melapor_other : $request->melapor_sebagai,
-                'hubungan_korban' => $request->hubungan_korban === 'lainnya' ? $request->hubungan_other : $request->hubungan_korban,
+                'no_pengaduan' => $kodePengaduan,
+                'judul_pengaduan' => $request->judul_pengaduan,
+                'lokasi_fasilitas' => $request->lokasi_fasilitas,
+                'jenis_fasilitas' => $request->jenis_fasilitas,
+                'deskripsi_pengaduan' => $request->deskripsi_pengaduan,
+                'tingkat_urgensi' => $request->tingkat_urgensi,
+                'foto_bukti' => $fotoBuktiPath,
+                'status_pengaduan' => 'menunggu',
+                'tanggal_pengaduan' => now()
             ]);
 
             return redirect()->route('pelapor.dashboard')

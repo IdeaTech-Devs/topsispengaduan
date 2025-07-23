@@ -26,7 +26,7 @@
                             <table class="table table-borderless">
                                 <tr>
                                     <th width="200">Kode Pengaduan</th>
-                                    <td>{{ $kasusSatgas->kasus->kode_pengaduan }}</td>
+                                    <td>{{ $kasusSatgas->kasus->no_pengaduan }}</td>
                                 </tr>
                                 <tr>
                                     <th>Jenis Masalah</th>

@@ -1,197 +1,83 @@
 <?php
+
 namespace Database\Seeders;
 
+use App\Models\Kasus;
+use App\Models\KasusSatgas;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class KasusSeeder extends Seeder
 {
     public function run()
     {
-        $now = Carbon::now();
+        $kasus = [
+            [
+                'pelapor_id' => 1,
+                'no_pengaduan' => 'FAC001',
+                'judul_pengaduan' => 'AC Rusak di Ruang Kelas 301',
+                'deskripsi' => 'AC di ruang kelas 301 tidak dingin dan mengeluarkan bunyi berisik',
+                'lokasi_fasilitas' => 'Gedung A Lantai 3 Ruang 301',
+                'jenis_fasilitas' => 'AC',
+                'tingkat_urgensi' => 'Tinggi',
+                'status' => 'Diproses',
+                'foto_bukti' => 'ac_rusak.jpg',
+                'tanggal_pengaduan' => '2024-03-15 09:00:00',
+                'tanggal_penanganan' => '2024-03-15 10:00:00'
+            ],
+            [
+                'pelapor_id' => 2,
+                'no_pengaduan' => 'FAC002',
+                'judul_pengaduan' => 'Kebocoran Atap Perpustakaan',
+                'deskripsi' => 'Terjadi kebocoran atap di area baca perpustakaan lantai 2',
+                'lokasi_fasilitas' => 'Perpustakaan Lantai 2',
+                'jenis_fasilitas' => 'Atap',
+                'tingkat_urgensi' => 'Tinggi',
+                'status' => 'Selesai',
+                'foto_bukti' => 'bocor_atap.jpg',
+                'foto_penanganan' => 'perbaikan_atap.jpg',
+                'tanggal_pengaduan' => '2024-03-14 13:00:00',
+                'tanggal_penanganan' => '2024-03-14 14:00:00',
+                'tanggal_selesai' => '2024-03-14 16:00:00'
+            ],
+            [
+                'pelapor_id' => 3,
+                'no_pengaduan' => 'FAC003',
+                'judul_pengaduan' => 'Proyektor Tidak Berfungsi',
+                'deskripsi' => 'Proyektor di ruang seminar tidak menampilkan gambar',
+                'lokasi_fasilitas' => 'Ruang Seminar Lt.1',
+                'jenis_fasilitas' => 'Proyektor',
+                'tingkat_urgensi' => 'Sedang',
+                'status' => 'Menunggu',
+                'foto_bukti' => 'proyektor.jpg',
+                'tanggal_pengaduan' => '2024-03-16 08:00:00'
+            ]
+        ];
 
-        DB::table('kasus')->insert([
+        foreach ($kasus as $k) {
+            Kasus::create($k);
+        }
+
+        // Seed kasus_satgas
+        $kasusSatgas = [
             [
-                'kode_pengaduan' => 'KAS001',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 1,
-                'jenis_masalah' => 'bullying',
-                'urgensi' => 'segera',
-                'dampak' => 'sedang',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Kasus bullying di area kampus oleh beberapa mahasiswa.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Teknik',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
+                'kasus_id' => 1,
+                'satgas_id' => 1,
+                'status_penanganan' => 'Sedang ditangani',
+                'catatan_penanganan' => 'Sedang melakukan pengecekan unit AC',
+                'mulai_penanganan' => '2024-03-15 10:00:00'
             ],
             [
-                'kode_pengaduan' => 'KAS002',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 2,
-                'jenis_masalah' => 'kekerasan seksual',
-                'urgensi' => 'segera',
-                'dampak' => 'sangat besar',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Kasus kekerasan seksual di area kampus yang melibatkan pihak dosen.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Teknik',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'kode_pengaduan' => 'KAS003',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 3,
-                'jenis_masalah' => 'pelecehan verbal',
-                'urgensi' => 'dalam beberapa hari',
-                'dampak' => 'sedang',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Kasus pelecehan verbal oleh senior kepada junior.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Teknik',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'kode_pengaduan' => 'KAS004',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 4,
-                'jenis_masalah' => 'diskriminasi',
-                'urgensi' => 'tidak mendesak',
-                'dampak' => 'kecil',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Diskriminasi dalam pembagian tugas kuliah.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Teknik',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'kode_pengaduan' => 'KAS005',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 5,
-                'jenis_masalah' => 'cyberbullying',
-                'urgensi' => 'segera',
-                'dampak' => 'sangat besar',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Serangan cyberbullying melalui media sosial terhadap pelapor.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Teknik',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'kode_pengaduan' => 'KAS006',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 6,
-                'jenis_masalah' => 'lainnya',
-                'urgensi' => 'dalam beberapa hari',
-                'dampak' => 'sedang',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Laporan tentang ketidakadilan dalam penilaian mata kuliah.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Ilmu Sosial dan Ilmu Politik',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'kode_pengaduan' => 'KAS007',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 7,
-                'jenis_masalah' => 'bullying',
-                'urgensi' => 'segera',
-                'dampak' => 'sedang',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Bullying yang terjadi di dalam ruang kuliah.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Kedokteran dan Ilmu Kesehatan',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'kode_pengaduan' => 'KAS008',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 8,
-                'jenis_masalah' => 'kekerasan seksual',
-                'urgensi' => 'segera',
-                'dampak' => 'sangat besar',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Tindak kekerasan seksual di lingkungan kampus.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Ekonomi dan Bisnis',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'kode_pengaduan' => 'KAS009',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 9,
-                'jenis_masalah' => 'pelecehan verbal',
-                'urgensi' => 'dalam beberapa hari',
-                'dampak' => 'kecil',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Pelecehan verbal oleh teman satu jurusan.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Hukum',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'kode_pengaduan' => 'KAS010',
-                'id_kemahasiswaan' => null,
-                'id_pelapor' => 10,
-                'jenis_masalah' => 'diskriminasi',
-                'urgensi' => 'tidak mendesak',
-                'dampak' => 'sedang',
-                'status_pengaduan' => 'perlu dikonfirmasi',
-                'tanggal_konfirmasi' => null,
-                'tanggal_pengaduan' => $now->toDateString(),
-                'deskripsi_kasus' => 'Diskriminasi dalam proses rekrutmen organisasi kampus.',
-                'bukti_kasus' => 'public/assets/img/bukti.png',
-                'asal_fakultas' => 'Pertanian',
-                'penangan_kasus' => null,
-                'catatan_penanganan' => null,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-        ]);
+                'kasus_id' => 2,
+                'satgas_id' => 2,
+                'status_penanganan' => 'Selesai',
+                'catatan_penanganan' => 'Perbaikan atap telah selesai dilakukan',
+                'mulai_penanganan' => '2024-03-14 14:00:00',
+                'selesai_penanganan' => '2024-03-14 16:00:00'
+            ]
+        ];
+
+        foreach ($kasusSatgas as $ks) {
+            KasusSatgas::create($ks);
+        }
     }
 }

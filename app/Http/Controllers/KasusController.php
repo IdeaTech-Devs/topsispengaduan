@@ -4,71 +4,141 @@ namespace App\Http\Controllers;
 
 use App\Models\Kasus;
 use App\Models\Pelapor;
+use App\Models\Satgas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class KasusController extends Controller
 {
-    // Menampilkan form untuk membuat kasus baru
     public function create()
     {
-        $pelapor = Pelapor::all(); // Mengambil semua pelapor
-        return view('kasus.create', compact('pelapor')); // Ganti dengan nama view yang sesuai
+        return view('kasus.create');
     }
 
-    // Menyimpan data kasus baru
     public function store(Request $request)
     {
         $request->validate([
-            'id_kemahasiswaan' => 'nullable|integer', // Jika ada tabel kemahasiswaan
-            'id_pelapor' => 'required|exists:pelapor,id_pelapor',
-            'jenis_masalah' => 'required|in:bullying,kekerasan seksual,pelecehan verbal,diskriminasi,cyberbullying,lainnya',
-            'urgensi' => 'required|in:segera,dalam beberapa hari,tidak mendesak',
-            'dampak' => 'required|in:sangat besar,sedang,kecil',
+            'judul_pengaduan' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'lokasi_fasilitas' => 'required|string|max:255',
+            'jenis_fasilitas' => 'required|string|max:255',
+            'tingkat_urgensi' => 'required|in:Rendah,Sedang,Tinggi',
+            'foto_bukti' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        Kasus::create($request->all());
+        $foto_bukti = null;
+        if ($request->hasFile('foto_bukti')) {
+            $foto_bukti = $request->file('foto_bukti')->store('public/foto_bukti');
+            $foto_bukti = str_replace('public/', '', $foto_bukti);
+        }
 
-        return redirect()->route('kasus.index')->with('success', 'Kasus berhasil ditambahkan.');
+        $kasus = Kasus::create([
+            'pelapor_id' => auth()->user()->pelapor->id,
+            'no_pengaduan' => 'FAC' . date('Ymd') . str_pad(Kasus::count() + 1, 3, '0', STR_PAD_LEFT),
+            'judul_pengaduan' => $request->judul_pengaduan,
+            'deskripsi' => $request->deskripsi,
+            'lokasi_fasilitas' => $request->lokasi_fasilitas,
+            'jenis_fasilitas' => $request->jenis_fasilitas,
+            'tingkat_urgensi' => $request->tingkat_urgensi,
+            'status' => 'Menunggu',
+            'foto_bukti' => $foto_bukti,
+            'tanggal_pengaduan' => Carbon::now()
+        ]);
+
+        return redirect()->route('kasus.show', $kasus->id)->with('success', 'Pengaduan fasilitas berhasil dibuat.');
     }
 
-    // Menampilkan daftar kasus
     public function index()
     {
-        $kasus = Kasus::with('pelapor')->get(); // Mengambil semua kasus dengan relasi pelapor
-        return view('kasus.index', compact('kasus')); // Ganti dengan nama view yang sesuai
+        $kasus = Kasus::with(['pelapor', 'satgas'])->latest()->get();
+        return view('kasus.index', compact('kasus'));
     }
 
-    // Menampilkan form untuk mengedit kasus
+    public function show($id)
+    {
+        $kasus = Kasus::with(['pelapor', 'satgas', 'kasusSatgas'])->findOrFail($id);
+        $satgas = Satgas::all();
+        return view('kasus.show', compact('kasus', 'satgas'));
+    }
+
     public function edit($id)
     {
         $kasus = Kasus::findOrFail($id);
-        $pelapor = Pelapor::all(); // Mengambil semua pelapor
-        return view('kasus.edit', compact('kasus', 'pelapor')); // Ganti dengan nama view yang sesuai
+        return view('kasus.edit', compact('kasus'));
     }
 
-    // Memperbarui data kasus
     public function update(Request $request, $id)
     {
         $request->validate([
-            'id_kemahasiswaan' => 'nullable|integer', // Jika ada tabel kemahasiswaan
-            'id_pelapor' => 'required|exists:pelapor,id_pelapor',
-            'jenis_masalah' => 'required|in:bullying,kekerasan seksual,pelecehan verbal,diskriminasi,cyberbullying,lainnya',
-            'urgensi' => 'required|in:segera,dalam beberapa hari,tidak mendesak',
-            'dampak' => 'required|in:sangat besar,sedang,kecil',
+            'judul_pengaduan' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'lokasi_fasilitas' => 'required|string|max:255',
+            'jenis_fasilitas' => 'required|string|max:255',
+            'tingkat_urgensi' => 'required|in:Rendah,Sedang,Tinggi',
+            'foto_bukti' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         $kasus = Kasus::findOrFail($id);
-        $kasus->update($request->all());
 
-        return redirect()->route('kasus.index')->with('success', 'Kasus berhasil diperbarui.');
+        if ($request->hasFile('foto_bukti')) {
+            // Hapus foto lama jika ada
+            if ($kasus->foto_bukti) {
+                Storage::delete('public/' . $kasus->foto_bukti);
+            }
+            
+            $foto_bukti = $request->file('foto_bukti')->store('public/foto_bukti');
+            $foto_bukti = str_replace('public/', '', $foto_bukti);
+            $kasus->foto_bukti = $foto_bukti;
+        }
+
+        $kasus->update([
+            'judul_pengaduan' => $request->judul_pengaduan,
+            'deskripsi' => $request->deskripsi,
+            'lokasi_fasilitas' => $request->lokasi_fasilitas,
+            'jenis_fasilitas' => $request->jenis_fasilitas,
+            'tingkat_urgensi' => $request->tingkat_urgensi
+        ]);
+
+        return redirect()->route('kasus.show', $kasus->id)->with('success', 'Pengaduan fasilitas berhasil diperbarui.');
     }
 
-    // Menghapus kasus
     public function destroy($id)
     {
         $kasus = Kasus::findOrFail($id);
+        
+        // Hapus foto jika ada
+        if ($kasus->foto_bukti) {
+            Storage::delete('public/' . $kasus->foto_bukti);
+        }
+        if ($kasus->foto_penanganan) {
+            Storage::delete('public/' . $kasus->foto_penanganan);
+        }
+        
         $kasus->delete();
 
-        return redirect()->route('kasus.index')->with('success', 'Kasus berhasil dihapus.');
+        return redirect()->route('kasus.index')->with('success', 'Pengaduan fasilitas berhasil dihapus.');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:Menunggu,Diproses,Selesai,Ditolak',
+            'catatan_admin' => 'nullable|string'
+        ]);
+
+        $kasus = Kasus::findOrFail($id);
+        $kasus->status = $request->status;
+        $kasus->catatan_admin = $request->catatan_admin;
+        
+        if ($request->status === 'Diproses') {
+            $kasus->tanggal_penanganan = Carbon::now();
+        } elseif ($request->status === 'Selesai') {
+            $kasus->tanggal_selesai = Carbon::now();
+        }
+        
+        $kasus->save();
+
+        return redirect()->route('kasus.show', $id)->with('success', 'Status pengaduan berhasil diperbarui.');
     }
 }

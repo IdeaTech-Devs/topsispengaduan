@@ -1,6 +1,6 @@
 @extends('pelapor.layout')
 
-@section('title', 'Lihat Progress Kasus')
+@section('title', 'Lihat Progress Pengaduan Fasilitas')
 
 @section('content')
 <div class="container">
@@ -10,9 +10,9 @@
                 <div class="progress-check-header">
                     <h3>
                         <i class="fas fa-search mr-2"></i>
-                        Cek Progress Pengaduan
+                        Cek Progress Pengaduan Fasilitas
                     </h3>
-                    <p>Masukkan kode pengaduan untuk melihat status kasus Anda</p>
+                    <p>Masukkan kode pengaduan untuk melihat status laporan fasilitas Anda</p>
                 </div>
 
                 <div class="progress-check-form">
@@ -29,16 +29,16 @@
                     <form method="POST" action="{{ route('pengaduan.cek-status') }}" id="progressForm">
                         @csrf
                         <div class="form-group">
-                            <input class="form-control kode-input @error('kode_pengaduan') is-invalid @enderror" 
-                                id="kode_pengaduan" 
-                                name="kode_pengaduan" 
+                            <input class="form-control kode-input @error('no_pengaduan') is-invalid @enderror" 
+                                id="no_pengaduan" 
+                                name="no_pengaduan" 
                                 type="text" 
                                 placeholder="Masukkan kode pengaduan"
-                                pattern="[A-Z0-9]{6}"
-                                maxlength="6"
-                                value="{{ old('kode_pengaduan') }}"
+                                pattern="[A-Z0-9]{6,}"
+                                maxlength="20"
+                                value="{{ old('no_pengaduan') }}"
                                 required />
-                            @error('kode_pengaduan')
+                            @error('no_pengaduan')
                                 <div class="invalid-feedback text-center">
                                     {{ $message }}
                                 </div>
@@ -51,6 +51,21 @@
                             </button>
                         </div>
                     </form>
+
+                    @if(session('status_pengaduan'))
+                        <div class="alert alert-info text-center mt-4">
+                            <strong>Status Pengaduan:</strong>
+                            <span class="badge badge-{{
+                                session('status_pengaduan') == 'selesai' ? 'success' :
+                                (session('status_pengaduan') == 'proses satgas' ? 'primary' :
+                                (session('status_pengaduan') == 'dikonfirmasi' ? 'info' :
+                                (session('status_pengaduan') == 'ditolak' ? 'danger' : 'secondary')))
+                            }}">
+                                {{ ucfirst(session('status_pengaduan')) }}
+                            </span>
+                            <div class="mt-2">{{ session('status_keterangan') }}</div>
+                        </div>
+                    @endif
 
                     <div class="progress-info mt-4">
                         <div class="progress-info-item">
@@ -77,7 +92,7 @@
 <script>
 $(document).ready(function() {
     // Auto uppercase input
-    $('#kode_pengaduan').on('input', function() {
+    $('#no_pengaduan').on('input', function() {
         $(this).val($(this).val().toUpperCase());
     });
 

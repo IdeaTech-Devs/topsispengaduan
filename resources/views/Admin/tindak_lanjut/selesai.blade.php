@@ -45,7 +45,7 @@
                     @foreach($kasusSelesai as $kasus)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $kasus->kode_pengaduan }}</td>
+                        <td>{{ $kasus->no_pengaduan }}</td>
                         <td>{{ $kasus->pelapor->nama_lengkap }}</td>
                         <td>{{ $kasus->pelapor->unsur }}</td>
                         <td>{{ $kasus->jenis_masalah }}</td>
@@ -85,7 +85,7 @@
                     <input type="hidden" name="status_pengaduan" value="proses satgas">
                     <div class="modal-body">
                         <p>Apakah Anda yakin ingin memproses ulang kasus ini?</p>
-                        <p><strong>Kode Pengaduan:</strong> {{ $kasus->kode_pengaduan }}</p>
+                        <p><strong>Kode Pengaduan:</strong> {{ $kasus->no_pengaduan }}</p>
                         <div class="form-group">
                             <label for="catatan_penanganan">Catatan Proses Ulang</label>
                             <textarea class="form-control" name="catatan_penanganan" rows="3" required></textarea>

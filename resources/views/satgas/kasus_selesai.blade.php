@@ -47,7 +47,7 @@
                         <tbody>
                             @foreach($kasusSelesai as $kasus)
                                 <tr>
-                                    <td>{{ $kasus->kasus->kode_pengaduan }}</td>
+                                    <td>{{ $kasus->kasus->no_pengaduan }}</td>
                                     <td>{{ $kasus->kasus->pelapor->nama_lengkap }}</td>
                                     <td>{{ ucfirst($kasus->kasus->jenis_masalah) }}</td>
                                     <td>{{ \Carbon\Carbon::parse($kasus->tanggal_tindak_selesai)->format('d F Y') }}</td>

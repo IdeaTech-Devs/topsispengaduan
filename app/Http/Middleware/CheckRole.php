@@ -23,7 +23,7 @@ class CheckRole
             return $next($request);
         }
         
-        if (in_array('satgas', $roles) && $user->id_satgas) {
+        if (in_array('satgas', $roles) && $user->satgas_id) {
             return $next($request);
         }
 

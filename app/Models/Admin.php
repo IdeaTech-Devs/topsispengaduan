@@ -10,17 +10,16 @@ class Admin extends Model
     use HasFactory;
 
     protected $table = 'admin';
-    protected $primaryKey = 'id_admin';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'nama',
         'email',
-        'telepon',
         'foto_profil'
     ];
 
     public function user()
     {
-        return $this->hasOne(User::class, 'id_admin', 'id_admin');
+        return $this->hasOne(User::class, 'admin_id');
     }
 } 

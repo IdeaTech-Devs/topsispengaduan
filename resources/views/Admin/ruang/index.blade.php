@@ -1,13 +1,13 @@
 @extends('admin.layout')
 
-@section('title', 'Data Kemahasiswaan')
+@section('title', 'Data Ruang')
 
 @section('content')
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Data Kemahasiswaan</h1>
-        <a href="{{ route('admin.kemahasiswaan.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Tambah Kemahasiswaan
+        <h1 class="h3 mb-0 text-gray-800">Data Ruang</h1>
+        <a href="{{ route('admin.ruang.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Tambah Ruang
         </a>
     </div>
 
@@ -22,52 +22,41 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Kemahasiswaan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Ruang</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Foto</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Telepon</th>
-                            <th>Fakultas</th>
+                            <th>Kode Ruang</th>
+                            <th>Nama Ruang</th>
+                            <th>Lokasi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($kemahasiswaan as $k)
+                        @foreach($ruang as $r)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td class="text-center">
-                                <img src="{{ $k->foto_profil ? asset('storage/'.$k->foto_profil) : asset('assets/img/undraw_profile.svg') }}" 
-                                     alt="Foto Profil" 
-                                     class="rounded-circle"
-                                     style="width: 50px; height: 50px; object-fit: cover;">
-                            </td>
-                            <td>{{ $k->nama }}</td>
-                            <td>{{ $k->email }}</td>
-                            <td>{{ $k->telepon }}</td>
-                            <td>{{ $k->fakultas }}</td>
+                            <td>{{ $r->kode_ruang }}</td>
+                            <td>{{ $r->nama_ruang }}</td>
+                            <td>{{ $r->lokasi }}</td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <a href="{{ route('admin.kemahasiswaan.show', $k->id_kemahasiswaan) }}" 
-                                       class="btn btn-info btn-sm" 
+                                    <a href="{{ route('admin.ruang.show', $r->id_ruang) }}" 
+                                       class="btn btn-info btn-sm"
                                        title="Detail">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.kemahasiswaan.edit', $k->id_kemahasiswaan) }}" 
+                                    <a href="{{ route('admin.ruang.edit', $r->id_ruang) }}" 
                                        class="btn btn-warning btn-sm"
                                        title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{ route('admin.kemahasiswaan.destroy', $k->id_kemahasiswaan) }}" 
+                                    <form action="{{ route('admin.ruang.destroy', $r->id_ruang) }}" 
                                           method="POST" 
                                           class="d-inline"
-                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus ruang ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" 

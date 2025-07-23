@@ -21,7 +21,7 @@
                                 <option value="">Pilih Kasus</option>
                                 @foreach($kasus as $k)
                                     <option value="{{ $k->id_kasus }}" {{ old('id_kasus') == $k->id_kasus ? 'selected' : '' }}>
-                                        {{ $k->kode_pengaduan }} - {{ Str::limit($k->deskripsi_kasus, 50) }}
+                                        {{ $k->no_pengaduan }} - {{ Str::limit($k->deskripsi_kasus, 50) }}
                                     </option>
                                 @endforeach
                             </select>

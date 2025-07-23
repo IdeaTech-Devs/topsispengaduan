@@ -16,19 +16,18 @@ class Satgas extends Model
         'nama',
         'email',
         'telepon',
+        'foto_profil'
     ];
 
-    // Relasi many-to-many dengan Kasus
     public function kasus()
     {
-        return $this->belongsToMany(Kasus::class, 'kasus_satgas', 'id_satgas', 'id_kasus')
-                    ->using(KasusSatgas::class)
-                    ->withPivot(['tanggal_tindak_lanjut', 'tanggal_tindak_selesai', 'status_tindak_lanjut']);
+        return $this->belongsToMany(Kasus::class, 'kasus_satgas', 'satgas_id', 'kasus_id')
+            ->withPivot(['status_penanganan', 'catatan_penanganan', 'mulai_penanganan', 'selesai_penanganan'])
+            ->withTimestamps();
     }
 
-    // Relasi dengan tabel pivot kasus_satgas
-    public function kasus_satgas()
+    public function kasusSatgas()
     {
-        return $this->hasMany(KasusSatgas::class, 'id_satgas');
+        return $this->hasMany(KasusSatgas::class, 'satgas_id', 'id_satgas');
     }
 }

@@ -15,11 +15,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="kode_pengaduan">Kode Pengaduan <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('kode_pengaduan') is-invalid @enderror" 
-                                   id="kode_pengaduan" name="kode_pengaduan" value="{{ old('kode_pengaduan') }}" 
+                            <label for="no_pengaduan">Kode Pengaduan <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('no_pengaduan') is-invalid @enderror" 
+                                   id="no_pengaduan" name="no_pengaduan" value="{{ old('no_pengaduan') }}" 
                                    required maxlength="6">
-                            @error('kode_pengaduan')
+                            @error('no_pengaduan')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -99,22 +99,6 @@
                                 <option value="selesai" {{ old('status_pengaduan') == 'selesai' ? 'selected' : '' }}>Selesai</option>
                             </select>
                             @error('status_pengaduan')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="id_kemahasiswaan">Kemahasiswaan</label>
-                            <select class="form-control @error('id_kemahasiswaan') is-invalid @enderror" 
-                                    id="id_kemahasiswaan" name="id_kemahasiswaan">
-                                <option value="">Pilih Kemahasiswaan</option>
-                                @foreach($kemahasiswaan as $k)
-                                    <option value="{{ $k->id_kemahasiswaan }}" {{ old('id_kemahasiswaan') == $k->id_kemahasiswaan ? 'selected' : '' }}>
-                                        {{ $k->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('id_kemahasiswaan')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

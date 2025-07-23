@@ -42,7 +42,7 @@
                     <tbody>
                         @foreach($kasusSatgas as $ks)
                         <tr>
-                            <td>{{ $ks->kasus->kode_pengaduan }}</td>
+                            <td>{{ $ks->kasus->no_pengaduan }}</td>
                             <td>{{ $ks->satgas->nama }}</td>
                             <td>{{ \Carbon\Carbon::parse($ks->tanggal_tindak_lanjut)->format('d/m/Y') }}</td>
                             <td>

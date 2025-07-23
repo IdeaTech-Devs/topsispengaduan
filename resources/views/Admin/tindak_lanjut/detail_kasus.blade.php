@@ -92,7 +92,7 @@
                         <tr>
                             <td width="35%">Kode Pengaduan</td>
                             <td width="5%">:</td>
-                            <td>{{ $kasus->kode_pengaduan }}</td>
+                            <td>{{ $kasus->no_pengaduan }}</td>
                         </tr>
                         <tr>
                             <td>Status</td>

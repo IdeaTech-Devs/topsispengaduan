@@ -10,10 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class SatgasSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
         DB::beginTransaction();
         try {
@@ -82,12 +79,11 @@ class SatgasSeeder extends Seeder
 
                 // Buat user untuk satgas
                 User::create([
+                    'name' => $satgas['nama'],
                     'email' => $satgas['email'],
                     'password' => Hash::make('12345678'),
                     'role' => 'satgas',
-                    'id_admin' => null,
-                    'id_kemahasiswaan' => null,
-                    'id_satgas' => $satgasRecord->id_satgas
+                    'satgas_id' => $satgasRecord->id_satgas
                 ]);
             }
 
