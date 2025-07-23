@@ -14,7 +14,7 @@ class PengaduanController extends Controller
 {
     public function create()
     {
-        return view('Pelapor.create_pengaduan');
+        return view('Pelapor.ajukan_pengaduan');
     }
 
     public function store(Request $request)
