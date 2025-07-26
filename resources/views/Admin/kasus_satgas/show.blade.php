@@ -6,9 +6,9 @@
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Detail Penugasan Satgas</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Detail Penugasan Pimpinan</h6>
             <div>
-                <a href="{{ route('admin.kasus_satgas.edit', [$kasusSatgas->id_kasus, $kasusSatgas->id_satgas]) }}" 
+                <a href="{{ route('admin.kasus_satgas.edit', [$kasusSatgas->id_kasus, $kasusSatgas->id_satgas]) }}"
                    class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Edit
                 </a>
@@ -35,9 +35,9 @@
                                 <tr>
                                     <th>Status Pengaduan</th>
                                     <td>
-                                        <span class="badge badge-{{ 
-                                            $kasusSatgas->kasus->status_pengaduan === 'selesai' ? 'success' : 
-                                            ($kasusSatgas->kasus->status_pengaduan === 'proses satgas' ? 'primary' : 'warning') 
+                                        <span class="badge badge-{{
+                                            $kasusSatgas->kasus->status_pengaduan === 'selesai' ? 'success' :
+                                            ($kasusSatgas->kasus->status_pengaduan === 'proses satgas' ? 'primary' : 'warning')
                                         }}">
                                             {{ ucfirst($kasusSatgas->kasus->status_pengaduan) }}
                                         </span>
@@ -54,10 +54,10 @@
                 <div class="col-md-6">
                     <div class="card border-left-success h-100">
                         <div class="card-body">
-                            <h5 class="card-title font-weight-bold text-success mb-4">Informasi Satgas</h5>
+                            <h5 class="card-title font-weight-bold text-success mb-4">Informasi Pimpinan</h5>
                             <table class="table table-borderless">
                                 <tr>
-                                    <th width="200">Nama Satgas</th>
+                                    <th width="200">Nama Pimpinan</th>
                                     <td>{{ $kasusSatgas->satgas->nama }}</td>
                                 </tr>
                                 <tr>
@@ -95,8 +95,8 @@
                                 <tr>
                                     <th>Tanggal Selesai</th>
                                     <td>
-                                        {{ $kasusSatgas->tanggal_tindak_selesai ? 
-                                           \Carbon\Carbon::parse($kasusSatgas->tanggal_tindak_selesai)->format('d F Y') : 
+                                        {{ $kasusSatgas->tanggal_tindak_selesai ?
+                                           \Carbon\Carbon::parse($kasusSatgas->tanggal_tindak_selesai)->format('d F Y') :
                                            '-' }}
                                     </td>
                                 </tr>
@@ -116,4 +116,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

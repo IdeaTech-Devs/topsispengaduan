@@ -23,9 +23,9 @@
                                 <ul class="mb-3">
                                     <li>Terdapat {{ $kasusBelumSelesai }} kasus yang membutuhkan perhatian Anda</li>
                                     <li>Total {{ $totalKasus }} kasus telah dilaporkan dalam sistem</li>
-                                    <li>{{ $totalSatgas }} Satgas aktif dalam sistem</li>
+                                    <li>{{ $totalSatgas }} Pimpinan aktif dalam sistem</li>
                                 </ul>
-                                <div class="mt-3">
+                                {{-- <div class="mt-3">
                                     <h6 class="font-weight-bold text-primary mb-2">Akses Cepat Data Master:</h6>
                                     <div class="btn-group flex-wrap">
                                         <a href="{{ route('admin.satgas.index') }}" class="btn btn-sm btn-outline-primary m-1">
@@ -47,7 +47,7 @@
                                             <i class="fas fa-calculator fa-fw mr-1"></i>Kriteria TOPSIS
                                         </a>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="col-auto">
@@ -123,7 +123,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Total Satgas</div>
+                                Total Pimpinan</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalSatgas }}</div>
                         </div>
                         <div class="col-auto">
@@ -169,10 +169,10 @@
                                         <div class="small text-muted">{{ $kasus->jenis_fasilitas }}</div>
                                     </td>
                                     <td>
-                                        <span class="badge badge-{{ 
-                                            $kasus->status === 'Menunggu' ? 'warning' : 
-                                            ($kasus->status === 'Diproses' ? 'info' : 
-                                            ($kasus->status === 'Ditolak' ? 'danger' : 'success')) 
+                                        <span class="badge badge-{{
+                                            $kasus->status === 'Menunggu' ? 'warning' :
+                                            ($kasus->status === 'Diproses' ? 'info' :
+                                            ($kasus->status === 'Ditolak' ? 'danger' : 'success'))
                                         }}">
                                             {{ $kasus->status }}
                                         </span>

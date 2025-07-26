@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Data Kasus Satgas</h1>
+        <h1 class="h3 mb-0 text-gray-800">Data Kasus Pimpinan</h1>
         <a href="{{ route('admin.kasus_satgas.create') }}" class="btn btn-primary">
             <i class="fas fa-plus"></i> Tambah Penugasan
         </a>
@@ -24,7 +24,7 @@
     <!-- Data Table -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Penugasan Satgas</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Penugasan Pimpinan</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -32,7 +32,7 @@
                     <thead>
                         <tr>
                             <th>Kode Pengaduan</th>
-                            <th>Nama Satgas</th>
+                            <th>Nama Pimpinan</th>
                             <th>Tanggal Tindak Lanjut</th>
                             <th>Tanggal Selesai</th>
                             <th>Status</th>
@@ -55,23 +55,23 @@
                             </td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <a href="{{ route('admin.kasus_satgas.show', [$ks->id_kasus, $ks->id_satgas]) }}" 
-                                       class="btn btn-info btn-sm" 
+                                    <a href="{{ route('admin.kasus_satgas.show', [$ks->id_kasus, $ks->id_satgas]) }}"
+                                       class="btn btn-info btn-sm"
                                        title="Detail">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.kasus_satgas.edit', [$ks->id_kasus, $ks->id_satgas]) }}" 
+                                    <a href="{{ route('admin.kasus_satgas.edit', [$ks->id_kasus, $ks->id_satgas]) }}"
                                        class="btn btn-warning btn-sm"
                                        title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{ route('admin.kasus_satgas.destroy', [$ks->id_kasus, $ks->id_satgas]) }}" 
-                                          method="POST" 
+                                    <form action="{{ route('admin.kasus_satgas.destroy', [$ks->id_kasus, $ks->id_satgas]) }}"
+                                          method="POST"
                                           class="d-inline"
                                           onsubmit="return confirm('Apakah Anda yakin ingin menghapus penugasan ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
+                                        <button type="submit"
                                                 class="btn btn-danger btn-sm"
                                                 title="Hapus">
                                             <i class="fas fa-trash"></i>
@@ -100,4 +100,4 @@
     });
 </script>
 @endpush
-@endsection 
+@endsection

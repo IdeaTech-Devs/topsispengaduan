@@ -38,7 +38,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('pelapor.dashboard') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
                 <div class="sidebar-brand-icon">
                     <img src="{{asset('assets/img/logo.png')}}" alt="Logo" style="width: 40px; height: 40px;">
                 </div>
@@ -52,7 +52,7 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            
+
             <!-- Nav Item - Ajukan Pengaduan -->
             <li class="nav-item {{ request()->routeIs('pelapor.ajukan_pengaduan') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('pelapor.ajukan_pengaduan') }}">
@@ -60,7 +60,7 @@
                     <span>Ajukan Pengaduan</span>
                 </a>
             </li>
-            
+
             <!-- Nav Item - Lihat Progress -->
             <li class="nav-item {{ request()->routeIs('pelapor.lihat_progres') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('pelapor.lihat_progres') }}">
@@ -68,7 +68,7 @@
                     <span>Lihat Progress Kasus</span>
                 </a>
             </li>
-            
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -77,7 +77,7 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
         </ul>
-        
+
 
         <!-- End of Sidebar -->
 
@@ -164,7 +164,7 @@
 
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    
+
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -180,12 +180,12 @@
         textarea.style.position = 'absolute';
         textarea.style.left = '-9999px';
         document.body.appendChild(textarea);
-        
+
         try {
             // Pilih dan salin teks
             textarea.select();
             document.execCommand('copy');
-            
+
             // Tampilkan notifikasi sukses
             Swal.fire({
                 icon: 'success',

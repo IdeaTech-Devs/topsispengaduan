@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Detail Satgas</h1>
+        <h1 class="h3 mb-0 text-gray-800">Detail Pimpinan</h1>
         <div>
             <a href="{{ route('admin.satgas.edit', $satgas->id_satgas) }}" class="btn btn-warning">
                 <i class="fas fa-edit"></i> Edit
@@ -24,8 +24,8 @@
                 </div>
                 <div class="card-body">
                     <div class="text-center mb-4">
-                        <img src="{{ $satgas->foto_profil ? asset('storage/'.$satgas->foto_profil) : asset('assets/img/undraw_profile.svg') }}" 
-                             alt="Foto Profil" 
+                        <img src="{{ $satgas->foto_profil ? asset('storage/'.$satgas->foto_profil) : asset('assets/img/undraw_profile.svg') }}"
+                             alt="Foto Profil"
                              class="img-profile rounded-circle"
                              style="width: 150px; height: 150px; object-fit: cover;">
                     </div>
@@ -135,7 +135,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="{{ route('admin.tindak_lanjut.detail', $kasus->id_kasus) }}" 
+                                                <a href="{{ route('admin.tindak_lanjut.detail', $kasus->id_kasus) }}"
                                                    class="btn btn-info btn-sm">
                                                     <i class="fas fa-eye"></i> Detail
                                                 </a>
@@ -154,4 +154,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

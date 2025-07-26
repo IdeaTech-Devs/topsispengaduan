@@ -64,9 +64,9 @@
                 </a>
                 <div id="collapseKasus" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {{ request()->routeIs('admin.tindak_lanjut.belum_selesai') ? 'active' : '' }}" 
+                        <a class="collapse-item {{ request()->routeIs('admin.tindak_lanjut.belum_selesai') ? 'active' : '' }}"
                            href="{{ route('admin.tindak_lanjut.belum_selesai') }}">Kasus Belum Selesai</a>
-                        <a class="collapse-item {{ request()->routeIs('admin.tindak_lanjut.selesai') ? 'active' : '' }}" 
+                        <a class="collapse-item {{ request()->routeIs('admin.tindak_lanjut.selesai') ? 'active' : '' }}"
                            href="{{ route('admin.tindak_lanjut.selesai') }}">Kasus Selesai</a>
                     </div>
                 </div>
@@ -90,27 +90,27 @@
                 <div id="collapseDataMaster" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Kelola Data:</h6>
-                        <a class="collapse-item {{ request()->routeIs('admin.satgas.*') ? 'active' : '' }}" 
+                        <a class="collapse-item {{ request()->routeIs('admin.satgas.*') ? 'active' : '' }}"
                            href="{{ route('admin.satgas.index') }}">
-                            <i class="fas fa-user-shield fa-fw mr-2"></i>Satgas
+                            <i class="fas fa-user-shield fa-fw mr-2"></i>Pimpinan
                         </a>
-                        <a class="collapse-item {{ request()->routeIs('admin.pelapor.*') ? 'active' : '' }}" 
+                        <a class="collapse-item {{ request()->routeIs('admin.pelapor.*') ? 'active' : '' }}"
                            href="{{ route('admin.pelapor.index') }}">
                             <i class="fas fa-user-edit fa-fw mr-2"></i>Pelapor
                         </a>
-                        <a class="collapse-item {{ request()->routeIs('admin.kasus.*') ? 'active' : '' }}" 
+                        <a class="collapse-item {{ request()->routeIs('admin.kasus.*') ? 'active' : '' }}"
                            href="{{ route('admin.kasus.index') }}">
                             <i class="fas fa-folder fa-fw mr-2"></i>Kasus
                         </a>
-                        <a class="collapse-item {{ request()->routeIs('admin.ruang.*') ? 'active' : '' }}" 
+                        <a class="collapse-item {{ request()->routeIs('admin.ruang.*') ? 'active' : '' }}"
                            href="{{ route('admin.ruang.index') }}">
                             <i class="fas fa-building fa-fw mr-2"></i>Ruang
                         </a>
-                        <a class="collapse-item {{ request()->routeIs('admin.fasilitas.*') ? 'active' : '' }}" 
+                        <a class="collapse-item {{ request()->routeIs('admin.fasilitas.*') ? 'active' : '' }}"
                            href="{{ route('admin.fasilitas.index') }}">
                             <i class="fas fa-tools fa-fw mr-2"></i>Fasilitas
                         </a>
-                        <a class="collapse-item {{ request()->routeIs('admin.topsis.*') ? 'active' : '' }}" 
+                        <a class="collapse-item {{ request()->routeIs('admin.topsis.*') ? 'active' : '' }}"
                            href="{{ route('admin.topsis.index') }}">
                             <i class="fas fa-calculator fa-fw mr-2"></i>Kriteria TOPSIS
                         </a>
@@ -150,7 +150,7 @@
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     {{ $nama_admin }}
                                 </span>
-                                <img class="img-profile rounded-circle" 
+                                <img class="img-profile rounded-circle"
                                      src="{{ $foto_admin }}"
                                      alt="Profile">
                             </a>

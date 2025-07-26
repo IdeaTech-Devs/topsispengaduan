@@ -53,16 +53,16 @@
                                     <span class="badge badge-info">{{ $satgas->nama }}</span>
                                 @endforeach
                             @else
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" 
+                                <button class="btn btn-sm btn-primary" data-toggle="modal"
                                         data-target="#pilihPetugasModal{{ $kasus->id_kasus }}">
                                     Pilih Petugas
                                 </button>
                             @endif
                         </td>
                         <td>
-                            <span class="badge badge-{{ 
+                            <span class="badge badge-{{
                                 $kasus->status_pengaduan == 'dikonfirmasi' ? 'primary' :
-                                ($kasus->status_pengaduan == 'proses satgas' ? 'info' : 'warning') 
+                                ($kasus->status_pengaduan == 'proses pimpinan' ? 'info' : 'warning')
                             }}">
                                 {{ ucfirst($kasus->status_pengaduan) }}
                             </span>
@@ -71,7 +71,7 @@
                             <a href="{{ route('admin.tindak_lanjut.detail', ['id' => $kasus->id_kasus]) }}" class="btn btn-info btn-sm">
                                 <i class="fas fa-eye"></i> Detail
                             </a>
-                            @if($kasus->status_pengaduan == 'proses satgas')
+                            @if($kasus->status_pengaduan == 'proses pimpinan')
                                 <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#selesaiModal{{ $kasus->id_kasus }}">
                                     <i class="fas fa-check"></i> Selesai
                                 </button>
@@ -91,7 +91,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Pilih Petugas Satgas</h5>
+                <h5 class="modal-title">Pilih Petugas Pimpinan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -104,7 +104,7 @@
                             <thead>
                                 <tr>
                                     <th>Pilih</th>
-                                    <th>Nama Satgas</th>
+                                    <th>Nama Pimpinan</th>
                                     <th>Fakultas</th>
                                     <th>Kasus Aktif</th>
                                 </tr>
@@ -113,7 +113,7 @@
                                 @foreach($satgasList as $satgas)
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="satgas_ids[]" 
+                                        <input type="checkbox" name="satgas_ids[]"
                                                value="{{ $satgas->id_satgas }}"
                                                class="form-check-input">
                                     </td>
@@ -123,7 +123,7 @@
                                         {{ $satgas->kasus_aktif_count }} kasus aktif
                                         @if($satgas->kasus_aktif_count > 0)
                                             <button type="button" class="btn btn-sm btn-info ml-2"
-                                                    data-toggle="popover" 
+                                                    data-toggle="popover"
                                                     title="Kasus yang Ditangani"
                                                     data-content="{{ $satgas->kasus_aktif_list }}">
                                                 <i class="fas fa-info-circle"></i>
@@ -164,12 +164,12 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="penangan_kasus">Penangan Kasus</label>
-                        <input type="text" class="form-control" name="penangan_kasus" 
+                        <input type="text" class="form-control" name="penangan_kasus"
                                value="{{ $kasus->penangan_kasus }}" required>
                     </div>
                     <div class="form-group">
                         <label for="catatan_penanganan">Catatan Penanganan</label>
-                        <textarea class="form-control" name="catatan_penanganan" 
+                        <textarea class="form-control" name="catatan_penanganan"
                                   rows="3" required>{{ $kasus->catatan_penanganan }}</textarea>
                     </div>
                 </div>
@@ -190,7 +190,7 @@
 <script>
     $(document).ready(function() {
         $('#dataTable').DataTable();
-        
+
         // Inisialisasi popover
         $('[data-toggle="popover"]').popover({
             trigger: 'hover',
@@ -198,4 +198,4 @@
         });
     });
 </script>
-@endpush 
+@endpush

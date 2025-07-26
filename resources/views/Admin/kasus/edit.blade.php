@@ -24,8 +24,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>No Pengaduan</label>
-                            <input type="text" 
-                                   name="no_pengaduan" 
+                            <input type="text"
+                                   name="no_pengaduan"
                                    class="form-control @error('no_pengaduan') is-invalid @enderror"
                                    value="{{ old('no_pengaduan', $kasus->no_pengaduan) }}"
                                    required>
@@ -36,12 +36,12 @@
 
                         <div class="form-group">
                             <label>Pelapor</label>
-                            <select name="pelapor_id" 
-                                    class="form-control @error('pelapor_id') is-invalid @enderror" 
+                            <select name="pelapor_id"
+                                    class="form-control @error('pelapor_id') is-invalid @enderror"
                                     required>
                                 <option value="">-- Pilih Pelapor --</option>
                                 @foreach($pelapor as $p)
-                                <option value="{{ $p->id_pelapor }}" 
+                                <option value="{{ $p->id_pelapor }}"
                                         {{ old('pelapor_id', $kasus->pelapor_id) == $p->id_pelapor ? 'selected' : '' }}>
                                     {{ $p->nama_lengkap }}
                                 </option>
@@ -54,8 +54,8 @@
 
                         <div class="form-group">
                             <label>Judul Pengaduan</label>
-                            <input type="text" 
-                                   name="judul_pengaduan" 
+                            <input type="text"
+                                   name="judul_pengaduan"
                                    class="form-control @error('judul_pengaduan') is-invalid @enderror"
                                    value="{{ old('judul_pengaduan', $kasus->judul_pengaduan) }}"
                                    required>
@@ -66,8 +66,8 @@
 
                         <div class="form-group">
                             <label>Lokasi Fasilitas</label>
-                            <input type="text" 
-                                   name="lokasi_fasilitas" 
+                            <input type="text"
+                                   name="lokasi_fasilitas"
                                    class="form-control @error('lokasi_fasilitas') is-invalid @enderror"
                                    value="{{ old('lokasi_fasilitas', $kasus->lokasi_fasilitas) }}"
                                    required>
@@ -78,8 +78,8 @@
 
                         <div class="form-group">
                             <label>Jenis Fasilitas</label>
-                            <input type="text" 
-                                   name="jenis_fasilitas" 
+                            <input type="text"
+                                   name="jenis_fasilitas"
                                    class="form-control @error('jenis_fasilitas') is-invalid @enderror"
                                    value="{{ old('jenis_fasilitas', $kasus->jenis_fasilitas) }}"
                                    required>
@@ -92,12 +92,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Tingkat Urgensi</label>
-                            <select name="tingkat_urgensi" 
+                            <select name="tingkat_urgensi"
                                     class="form-control @error('tingkat_urgensi') is-invalid @enderror"
                                     required>
                                 <option value="">-- Pilih Tingkat Urgensi --</option>
                                 @foreach(['Rendah', 'Sedang', 'Tinggi'] as $urgensi)
-                                <option value="{{ $urgensi }}" 
+                                <option value="{{ $urgensi }}"
                                         {{ old('tingkat_urgensi', $kasus->tingkat_urgensi) == $urgensi ? 'selected' : '' }}>
                                     {{ $urgensi }}
                                 </option>
@@ -110,12 +110,12 @@
 
                         <div class="form-group">
                             <label>Status</label>
-                            <select name="status" 
+                            <select name="status"
                                     class="form-control @error('status') is-invalid @enderror"
                                     required>
                                 <option value="">-- Pilih Status --</option>
                                 @foreach(['Menunggu', 'Diproses', 'Selesai', 'Ditolak'] as $status)
-                                <option value="{{ $status }}" 
+                                <option value="{{ $status }}"
                                         {{ old('status', $kasus->status) == $status ? 'selected' : '' }}>
                                     {{ $status }}
                                 </option>
@@ -128,8 +128,8 @@
 
                         <div class="form-group">
                             <label>Tanggal Pengaduan</label>
-                            <input type="date" 
-                                   name="tanggal_pengaduan" 
+                            <input type="date"
+                                   name="tanggal_pengaduan"
                                    class="form-control @error('tanggal_pengaduan') is-invalid @enderror"
                                    value="{{ old('tanggal_pengaduan', ($kasus->tanggal_pengaduan instanceof \Carbon\Carbon) ? $kasus->tanggal_pengaduan->format('Y-m-d') : \Carbon\Carbon::parse($kasus->tanggal_pengaduan)->format('Y-m-d')) }}"
                                    required>
@@ -140,8 +140,8 @@
 
                         <div class="form-group">
                             <label>Foto Bukti</label>
-                            <input type="file" 
-                                   name="foto_bukti" 
+                            <input type="file"
+                                   name="foto_bukti"
                                    class="form-control @error('foto_bukti') is-invalid @enderror"
                                    accept="image/*">
                             @error('foto_bukti')
@@ -149,9 +149,9 @@
                             @enderror
                             @if($kasus->foto_bukti)
                             <div class="mt-2">
-                                <img src="{{ asset('storage/'.$kasus->foto_bukti) }}" 
-                                     alt="Foto Bukti" 
-                                     class="img-thumbnail" 
+                                <img src="{{ asset('storage/'.$kasus->foto_bukti) }}"
+                                     alt="Foto Bukti"
+                                     class="img-thumbnail"
                                      style="max-height: 200px">
                             </div>
                             @endif
@@ -163,9 +163,9 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea name="deskripsi" 
+                            <textarea name="deskripsi"
                                       class="form-control @error('deskripsi') is-invalid @enderror"
-                                      rows="4" 
+                                      rows="4"
                                       required>{{ old('deskripsi', $kasus->deskripsi) }}</textarea>
                             @error('deskripsi')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -178,7 +178,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Catatan Admin</label>
-                            <textarea name="catatan_admin" 
+                            <textarea name="catatan_admin"
                                       class="form-control @error('catatan_admin') is-invalid @enderror"
                                       rows="4">{{ old('catatan_admin', $kasus->catatan_admin) }}</textarea>
                             @error('catatan_admin')
@@ -188,8 +188,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Catatan Satgas</label>
-                            <textarea name="catatan_satgas" 
+                            <label>Catatan Pimpinan</label>
+                            <textarea name="catatan_satgas"
                                       class="form-control @error('catatan_satgas') is-invalid @enderror"
                                       rows="4">{{ old('catatan_satgas', $kasus->catatan_satgas) }}</textarea>
                             @error('catatan_satgas')
@@ -208,4 +208,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

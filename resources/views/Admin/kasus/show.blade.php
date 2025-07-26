@@ -47,9 +47,9 @@
                         <tr>
                             <th>Tingkat Urgensi</th>
                             <td>
-                                <span class="badge badge-{{ 
-                                    $kasus->tingkat_urgensi === 'Tinggi' ? 'danger' : 
-                                    ($kasus->tingkat_urgensi === 'Sedang' ? 'warning' : 'info') 
+                                <span class="badge badge-{{
+                                    $kasus->tingkat_urgensi === 'Tinggi' ? 'danger' :
+                                    ($kasus->tingkat_urgensi === 'Sedang' ? 'warning' : 'info')
                                 }}">
                                     {{ $kasus->tingkat_urgensi }}
                                 </span>
@@ -62,10 +62,10 @@
                         <tr>
                             <th width="30%">Status</th>
                             <td>
-                                <span class="badge badge-{{ 
-                                    $kasus->status === 'Menunggu' ? 'warning' : 
-                                    ($kasus->status === 'Diproses' ? 'info' : 
-                                    ($kasus->status === 'Ditolak' ? 'danger' : 'success')) 
+                                <span class="badge badge-{{
+                                    $kasus->status === 'Menunggu' ? 'warning' :
+                                    ($kasus->status === 'Diproses' ? 'info' :
+                                    ($kasus->status === 'Ditolak' ? 'danger' : 'success'))
                                 }}">
                                     {{ $kasus->status }}
                                 </span>
@@ -128,7 +128,7 @@
             @if($kasus->catatan_satgas)
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <h5 class="font-weight-bold">Catatan Satgas</h5>
+                    <h5 class="font-weight-bold">Catatan Pimpinan</h5>
                     <p>{{ $kasus->catatan_satgas }}</p>
                 </div>
             </div>
@@ -136,4 +136,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

@@ -5,9 +5,9 @@
 @section('content')
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Data Satgas</h1>
+        <h1 class="h3 mb-0 text-gray-800">Data Pimpinan</h1>
         <a href="{{ route('admin.satgas.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Tambah Satgas
+            <i class="fas fa-plus"></i> Tambah Pimpinan
         </a>
     </div>
 
@@ -31,7 +31,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Satgas</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Pimpinan</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -51,8 +51,8 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td class="text-center">
-                                <img src="{{ $s->foto_profil ? asset('storage/'.$s->foto_profil) : asset('assets/img/undraw_profile.svg') }}" 
-                                     alt="Foto Profil" 
+                                <img src="{{ $s->foto_profil ? asset('storage/'.$s->foto_profil) : asset('assets/img/undraw_profile.svg') }}"
+                                     alt="Foto Profil"
                                      class="rounded-circle"
                                      style="width: 50px; height: 50px; object-fit: cover;">
                             </td>
@@ -61,23 +61,23 @@
                             <td>{{ $s->telepon }}</td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <a href="{{ route('admin.satgas.show', $s->id_satgas) }}" 
-                                       class="btn btn-info btn-sm" 
+                                    <a href="{{ route('admin.satgas.show', $s->id_satgas) }}"
+                                       class="btn btn-info btn-sm"
                                        title="Detail">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.satgas.edit', $s->id_satgas) }}" 
+                                    <a href="{{ route('admin.satgas.edit', $s->id_satgas) }}"
                                        class="btn btn-warning btn-sm"
                                        title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{ route('admin.satgas.destroy', $s->id_satgas) }}" 
-                                          method="POST" 
+                                    <form action="{{ route('admin.satgas.destroy', $s->id_satgas) }}"
+                                          method="POST"
                                           class="d-inline"
-                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus satgas ini?');">
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus Pimpinan ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
+                                        <button type="submit"
                                                 class="btn btn-danger btn-sm"
                                                 title="Hapus">
                                             <i class="fas fa-trash"></i>
@@ -105,4 +105,4 @@
     });
 </script>
 @endpush
-@endsection 
+@endsection

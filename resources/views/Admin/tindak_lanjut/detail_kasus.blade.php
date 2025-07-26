@@ -98,9 +98,9 @@
                             <td>Status</td>
                             <td>:</td>
                             <td>
-                                <span class="badge badge-{{ 
-                                    $kasus->status_pengaduan == 'selesai' ? 'success' : 
-                                    ($kasus->status_pengaduan == 'proses satgas' ? 'info' : 'warning') 
+                                <span class="badge badge-{{
+                                    $kasus->status_pengaduan == 'selesai' ? 'success' :
+                                    ($kasus->status_pengaduan == 'proses pimpinan' ? 'info' : 'warning')
                                 }}">
                                     {{ ucfirst($kasus->status_pengaduan) }}
                                 </span>
@@ -164,7 +164,7 @@
                     </div>
 
                     <div>
-                        <h6 class="font-weight-bold">Satgas:</h6>
+                        <h6 class="font-weight-bold">Pimpinan:</h6>
                         @foreach($kasus->satgas as $satgas)
                             <div class="mb-3">
                                 <p>{{ $satgas->nama }}</p>

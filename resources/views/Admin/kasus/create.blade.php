@@ -11,13 +11,13 @@
         <div class="card-body">
             <form action="{{ route('admin.kasus.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="no_pengaduan">Kode Pengaduan <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('no_pengaduan') is-invalid @enderror" 
-                                   id="no_pengaduan" name="no_pengaduan" value="{{ old('no_pengaduan') }}" 
+                            <input type="text" class="form-control @error('no_pengaduan') is-invalid @enderror"
+                                   id="no_pengaduan" name="no_pengaduan" value="{{ old('no_pengaduan') }}"
                                    required maxlength="6">
                             @error('no_pengaduan')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -26,7 +26,7 @@
 
                         <div class="form-group">
                             <label for="id_pelapor">Pelapor <span class="text-danger">*</span></label>
-                            <select class="form-control @error('id_pelapor') is-invalid @enderror" 
+                            <select class="form-control @error('id_pelapor') is-invalid @enderror"
                                     id="id_pelapor" name="id_pelapor" required>
                                 <option value="">Pilih Pelapor</option>
                                 @foreach($pelapor as $p)
@@ -42,7 +42,7 @@
 
                         <div class="form-group">
                             <label for="jenis_masalah">Jenis Masalah <span class="text-danger">*</span></label>
-                            <select class="form-control @error('jenis_masalah') is-invalid @enderror" 
+                            <select class="form-control @error('jenis_masalah') is-invalid @enderror"
                                     id="jenis_masalah" name="jenis_masalah" required>
                                 <option value="">Pilih Jenis Masalah</option>
                                 <option value="bullying" {{ old('jenis_masalah') == 'bullying' ? 'selected' : '' }}>Bullying</option>
@@ -59,7 +59,7 @@
 
                         <div class="form-group">
                             <label for="urgensi">Tingkat Urgensi <span class="text-danger">*</span></label>
-                            <select class="form-control @error('urgensi') is-invalid @enderror" 
+                            <select class="form-control @error('urgensi') is-invalid @enderror"
                                     id="urgensi" name="urgensi" required>
                                 <option value="">Pilih Tingkat Urgensi</option>
                                 <option value="segera" {{ old('urgensi') == 'segera' ? 'selected' : '' }}>Segera</option>
@@ -73,7 +73,7 @@
 
                         <div class="form-group">
                             <label for="dampak">Dampak <span class="text-danger">*</span></label>
-                            <select class="form-control @error('dampak') is-invalid @enderror" 
+                            <select class="form-control @error('dampak') is-invalid @enderror"
                                     id="dampak" name="dampak" required>
                                 <option value="">Pilih Dampak</option>
                                 <option value="sangat besar" {{ old('dampak') == 'sangat besar' ? 'selected' : '' }}>Sangat Besar</option>
@@ -89,13 +89,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="status_pengaduan">Status Pengaduan <span class="text-danger">*</span></label>
-                            <select class="form-control @error('status_pengaduan') is-invalid @enderror" 
+                            <select class="form-control @error('status_pengaduan') is-invalid @enderror"
                                     id="status_pengaduan" name="status_pengaduan" required>
                                 <option value="">Pilih Status</option>
                                 <option value="perlu dikonfirmasi" {{ old('status_pengaduan') == 'perlu dikonfirmasi' ? 'selected' : '' }}>Perlu Dikonfirmasi</option>
                                 <option value="dikonfirmasi" {{ old('status_pengaduan') == 'dikonfirmasi' ? 'selected' : '' }}>Dikonfirmasi</option>
                                 <option value="ditolak" {{ old('status_pengaduan') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                                <option value="proses satgas" {{ old('status_pengaduan') == 'proses satgas' ? 'selected' : '' }}>Proses Satgas</option>
+                                <option value="proses satgas" {{ old('status_pengaduan') == 'proses satgas' ? 'selected' : '' }}>Proses Pimpinan</option>
                                 <option value="selesai" {{ old('status_pengaduan') == 'selesai' ? 'selected' : '' }}>Selesai</option>
                             </select>
                             @error('status_pengaduan')
@@ -105,8 +105,8 @@
 
                         <div class="form-group">
                             <label for="tanggal_pengaduan">Tanggal Pengaduan <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_pengaduan') is-invalid @enderror" 
-                                   id="tanggal_pengaduan" name="tanggal_pengaduan" 
+                            <input type="date" class="form-control @error('tanggal_pengaduan') is-invalid @enderror"
+                                   id="tanggal_pengaduan" name="tanggal_pengaduan"
                                    value="{{ old('tanggal_pengaduan', date('Y-m-d')) }}" required>
                             @error('tanggal_pengaduan')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -115,7 +115,7 @@
 
                         <div class="form-group">
                             <label for="asal_fakultas">Asal Fakultas <span class="text-danger">*</span></label>
-                            <select class="form-control @error('asal_fakultas') is-invalid @enderror" 
+                            <select class="form-control @error('asal_fakultas') is-invalid @enderror"
                                     id="asal_fakultas" name="asal_fakultas" required>
                                 <option value="">Pilih Fakultas</option>
                                 <option value="Teknik" {{ old('asal_fakultas') == 'Teknik' ? 'selected' : '' }}>Teknik</option>
@@ -133,7 +133,7 @@
 
                         <div class="form-group">
                             <label for="bukti_kasus">Bukti Kasus</label>
-                            <input type="file" class="form-control @error('bukti_kasus') is-invalid @enderror" 
+                            <input type="file" class="form-control @error('bukti_kasus') is-invalid @enderror"
                                    id="bukti_kasus" name="bukti_kasus">
                             @error('bukti_kasus')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -147,7 +147,7 @@
 
                 <div class="form-group">
                     <label for="deskripsi_kasus">Deskripsi Kasus <span class="text-danger">*</span></label>
-                    <textarea class="form-control @error('deskripsi_kasus') is-invalid @enderror" 
+                    <textarea class="form-control @error('deskripsi_kasus') is-invalid @enderror"
                               id="deskripsi_kasus" name="deskripsi_kasus" rows="4" required>{{ old('deskripsi_kasus') }}</textarea>
                     @error('deskripsi_kasus')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -156,7 +156,7 @@
 
                 <div class="form-group">
                     <label for="catatan_penanganan">Catatan Penanganan</label>
-                    <textarea class="form-control @error('catatan_penanganan') is-invalid @enderror" 
+                    <textarea class="form-control @error('catatan_penanganan') is-invalid @enderror"
                               id="catatan_penanganan" name="catatan_penanganan" rows="3">{{ old('catatan_penanganan') }}</textarea>
                     @error('catatan_penanganan')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -171,4 +171,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

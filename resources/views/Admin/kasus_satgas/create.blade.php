@@ -6,17 +6,17 @@
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tambah Penugasan Satgas</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Pimpinan</h6>
         </div>
         <div class="card-body">
             <form action="{{ route('admin.kasus_satgas.store') }}" method="POST">
                 @csrf
-                
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="id_kasus">Kasus <span class="text-danger">*</span></label>
-                            <select class="form-control @error('id_kasus') is-invalid @enderror" 
+                            <select class="form-control @error('id_kasus') is-invalid @enderror"
                                     id="id_kasus" name="id_kasus" required>
                                 <option value="">Pilih Kasus</option>
                                 @foreach($kasus as $k)
@@ -32,9 +32,9 @@
 
                         <div class="form-group">
                             <label for="id_satgas">Satgas <span class="text-danger">*</span></label>
-                            <select class="form-control @error('id_satgas') is-invalid @enderror" 
+                            <select class="form-control @error('id_satgas') is-invalid @enderror"
                                     id="id_satgas" name="id_satgas" required>
-                                <option value="">Pilih Satgas</option>
+                                <option value="">Pilih Pimpinan</option>
                                 @foreach($satgas as $s)
                                     <option value="{{ $s->id_satgas }}" {{ old('id_satgas') == $s->id_satgas ? 'selected' : '' }}>
                                         {{ $s->nama }}
@@ -48,8 +48,8 @@
 
                         <div class="form-group">
                             <label for="tanggal_tindak_lanjut">Tanggal Tindak Lanjut <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_tindak_lanjut') is-invalid @enderror" 
-                                   id="tanggal_tindak_lanjut" name="tanggal_tindak_lanjut" 
+                            <input type="date" class="form-control @error('tanggal_tindak_lanjut') is-invalid @enderror"
+                                   id="tanggal_tindak_lanjut" name="tanggal_tindak_lanjut"
                                    value="{{ old('tanggal_tindak_lanjut', date('Y-m-d')) }}" required>
                             @error('tanggal_tindak_lanjut')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -58,7 +58,7 @@
 
                         <div class="form-group">
                             <label for="status_tindak_lanjut">Status Tindak Lanjut <span class="text-danger">*</span></label>
-                            <select class="form-control @error('status_tindak_lanjut') is-invalid @enderror" 
+                            <select class="form-control @error('status_tindak_lanjut') is-invalid @enderror"
                                     id="status_tindak_lanjut" name="status_tindak_lanjut" required>
                                 <option value="">Pilih Status</option>
                                 <option value="proses" {{ old('status_tindak_lanjut') == 'proses' ? 'selected' : '' }}>Proses</option>
@@ -71,8 +71,8 @@
 
                         <div class="form-group" id="tanggal_selesai_group" style="display: none;">
                             <label for="tanggal_tindak_selesai">Tanggal Selesai</label>
-                            <input type="date" class="form-control @error('tanggal_tindak_selesai') is-invalid @enderror" 
-                                   id="tanggal_tindak_selesai" name="tanggal_tindak_selesai" 
+                            <input type="date" class="form-control @error('tanggal_tindak_selesai') is-invalid @enderror"
+                                   id="tanggal_tindak_selesai" name="tanggal_tindak_selesai"
                                    value="{{ old('tanggal_tindak_selesai') }}">
                             @error('tanggal_tindak_selesai')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -108,4 +108,4 @@
     });
 </script>
 @endpush
-@endsection 
+@endsection
