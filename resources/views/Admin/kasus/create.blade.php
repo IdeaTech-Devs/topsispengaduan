@@ -88,17 +88,16 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="status_pengaduan">Status Pengaduan <span class="text-danger">*</span></label>
-                            <select class="form-control @error('status_pengaduan') is-invalid @enderror" 
-                                    id="status_pengaduan" name="status_pengaduan" required>
+                            <label for="status">Status <span class="text-danger">*</span></label>
+                            <select class="form-control @error('status') is-invalid @enderror" 
+                                    id="status" name="status" required>
                                 <option value="">Pilih Status</option>
-                                <option value="perlu dikonfirmasi" {{ old('status_pengaduan') == 'perlu dikonfirmasi' ? 'selected' : '' }}>Perlu Dikonfirmasi</option>
-                                <option value="dikonfirmasi" {{ old('status_pengaduan') == 'dikonfirmasi' ? 'selected' : '' }}>Dikonfirmasi</option>
-                                <option value="ditolak" {{ old('status_pengaduan') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                                <option value="proses satgas" {{ old('status_pengaduan') == 'proses satgas' ? 'selected' : '' }}>Proses Satgas</option>
-                                <option value="selesai" {{ old('status_pengaduan') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                <option value="Menunggu" {{ old('status') == 'Menunggu' ? 'selected' : '' }}>Menunggu</option>
+                                <option value="Diproses" {{ old('status') == 'Diproses' ? 'selected' : '' }}>Diproses</option>
+                                <option value="Selesai" {{ old('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                                <option value="Ditolak" {{ old('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
                             </select>
-                            @error('status_pengaduan')
+                            @error('status')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

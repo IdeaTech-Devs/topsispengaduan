@@ -99,10 +99,10 @@
                             <td>:</td>
                             <td>
                                 <span class="badge badge-{{ 
-                                    $kasus->status_pengaduan == 'selesai' ? 'success' : 
-                                    ($kasus->status_pengaduan == 'proses satgas' ? 'info' : 'warning') 
+                                    $kasus->status == 'Selesai' ? 'success' : 
+                                    ($kasus->status == 'Diproses' ? 'info' : 'warning') 
                                 }}">
-                                    {{ ucfirst($kasus->status_pengaduan) }}
+                                    {{ ucfirst($kasus->status) }}
                                 </span>
                             </td>
                         </tr>

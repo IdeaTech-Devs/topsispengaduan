@@ -36,10 +36,10 @@
                                     <th>Status Pengaduan</th>
                                     <td>
                                         <span class="badge badge-{{ 
-                                            $kasusSatgas->kasus->status_pengaduan === 'selesai' ? 'success' : 
-                                            ($kasusSatgas->kasus->status_pengaduan === 'proses satgas' ? 'primary' : 'warning') 
+                                            $kasusSatgas->kasus->status === 'Selesai' ? 'success' : 
+                                            ($kasusSatgas->kasus->status === 'Diproses' ? 'primary' : 'warning') 
                                         }}">
-                                            {{ ucfirst($kasusSatgas->kasus->status_pengaduan) }}
+                                            {{ ucfirst($kasusSatgas->kasus->status) }}
                                         </span>
                                     </td>
                                 </tr>

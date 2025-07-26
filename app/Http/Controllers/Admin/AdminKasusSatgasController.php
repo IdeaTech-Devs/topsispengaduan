@@ -21,8 +21,8 @@ class AdminKasusSatgasController extends Controller
 
     public function create()
     {
-        $kasus = Kasus::where('status_pengaduan', 'dikonfirmasi')
-            ->orWhere('status_pengaduan', 'proses satgas')
+        $kasus = Kasus::where('status', 'Dikonfirmasi')
+            ->orWhere('status', 'Diproses')
             ->get();
         $satgas = Satgas::all();
         return view('admin.kasus_satgas.create', compact('kasus', 'satgas'));
@@ -52,7 +52,7 @@ class AdminKasusSatgasController extends Controller
 
         // Update status kasus menjadi proses satgas
         $kasus = Kasus::find($validated['id_kasus']);
-        $kasus->update(['status_pengaduan' => 'proses satgas']);
+        $kasus->update(['status' => 'Diproses']);
 
         KasusSatgas::create($validated);
         return redirect()->route('admin.kasus-satgas.index')
@@ -104,7 +104,7 @@ class AdminKasusSatgasController extends Controller
             ->doesntExist();
 
         if ($allSatgasFinished) {
-            $kasus->update(['status_pengaduan' => 'selesai']);
+            $kasus->update(['status' => 'Selesai']);
         }
 
         return redirect()->route('admin.kasus-satgas.index')

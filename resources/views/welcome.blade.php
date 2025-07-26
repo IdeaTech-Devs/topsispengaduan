@@ -345,7 +345,7 @@
                         </div>
                         <div class="col-12 text-lg-end mt-4">
                             <a href="{{ route('login') }}" class="btn btn-login">
-                                <i class="bi bi-person-circle me-2"></i>Login Petugas
+                                <i class="bi bi-person-circle me-2"></i>Login
                             </a>
                             <div class="mt-4">
                                 <small style="opacity:0.6;">&copy; {{ date('Y') }} Klinik Pratama Inggit Medika. All rights reserved.</small>

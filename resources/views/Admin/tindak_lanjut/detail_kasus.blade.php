@@ -8,7 +8,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Detail Kasus</h1>
         <div>
-            @if($kasus->status_pengaduan == 'selesai')
+            @if($kasus->status == 'Selesai')
                 <button class="btn btn-warning" data-toggle="modal" data-target="#prosesUlangModal">
                     <i class="fas fa-redo"></i> Proses Ulang
                 </button>
@@ -99,10 +99,10 @@
                             <td>:</td>
                             <td>
                                 <span class="badge badge-{{ 
-                                    $kasus->status_pengaduan == 'selesai' ? 'success' : 
-                                    ($kasus->status_pengaduan == 'proses satgas' ? 'info' : 'warning') 
+                                    $kasus->status == 'Selesai' ? 'success' : 
+                                    ($kasus->status == 'Proses Satgas' ? 'info' : 'warning') 
                                 }}">
-                                    {{ ucfirst($kasus->status_pengaduan) }}
+                                    {{ ucfirst($kasus->status) }}
                                 </span>
                             </td>
                         </tr>

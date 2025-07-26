@@ -62,15 +62,15 @@ class PelaporController extends Controller
 
             // Buat kasus baru
             $kasus = Kasus::create([
-                'id_pelapor' => $pelapor->id_pelapor,
+                'pelapor_id' => $pelapor->id_pelapor,
                 'no_pengaduan' => $kodePengaduan,
                 'judul_pengaduan' => $request->judul_pengaduan,
                 'lokasi_fasilitas' => $request->lokasi_fasilitas,
                 'jenis_fasilitas' => $request->jenis_fasilitas,
-                'deskripsi_pengaduan' => $request->deskripsi_pengaduan,
+                'deskripsi' => $request->deskripsi_pengaduan,
                 'tingkat_urgensi' => $request->tingkat_urgensi,
                 'foto_bukti' => $fotoBuktiPath,
-                'status_pengaduan' => 'menunggu',
+                'status' => 'Menunggu',
                 'tanggal_pengaduan' => now()
             ]);
 

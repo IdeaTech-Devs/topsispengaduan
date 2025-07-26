@@ -131,7 +131,7 @@
                                             <td>{{ $kasus->jenis_masalah }}</td>
                                             <td>
                                                 <span class="badge badge-info">
-                                                    {{ ucfirst($kasus->status_pengaduan) }}
+                                                    {{ ucfirst($kasus->status) }}
                                                 </span>
                                             </td>
                                             <td>

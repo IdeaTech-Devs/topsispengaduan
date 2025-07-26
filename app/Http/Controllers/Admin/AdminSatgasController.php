@@ -36,7 +36,7 @@ class AdminSatgasController extends Controller
     {
         $satgas = Satgas::findOrFail($id);
         $kasusAktif = $satgas->kasus()
-            ->where('status_pengaduan', '!=', 'selesai')
+            ->where('status', '!=', 'Selesai')
             ->get();
 
         return view('admin.satgas.show', compact('satgas', 'kasusAktif'));
@@ -68,7 +68,7 @@ class AdminSatgasController extends Controller
         $satgas = Satgas::findOrFail($id);
         
         // Cek apakah satgas masih memiliki kasus aktif
-        if ($satgas->kasus()->where('status_pengaduan', '!=', 'selesai')->exists()) {
+        if ($satgas->kasus()->where('status', '!=', 'Selesai')->exists()) {
             return redirect()->route('admin.satgas.index')
                 ->with('error', 'Tidak dapat menghapus satgas yang masih memiliki kasus aktif');
         }

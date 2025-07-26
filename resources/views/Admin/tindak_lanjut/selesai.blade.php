@@ -82,7 +82,7 @@
                 <form action="{{ route('admin.tindak_lanjut.update_status', $kasus->id_kasus) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" name="status_pengaduan" value="proses satgas">
+                    <input type="hidden" name="status" value="Diproses">
                     <div class="modal-body">
                         <p>Apakah Anda yakin ingin memproses ulang kasus ini?</p>
                         <p><strong>Kode Pengaduan:</strong> {{ $kasus->no_pengaduan }}</p>

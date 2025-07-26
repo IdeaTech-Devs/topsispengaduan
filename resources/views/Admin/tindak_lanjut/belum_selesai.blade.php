@@ -61,17 +61,17 @@
                         </td>
                         <td>
                             <span class="badge badge-{{ 
-                                $kasus->status_pengaduan == 'dikonfirmasi' ? 'primary' :
-                                ($kasus->status_pengaduan == 'proses satgas' ? 'info' : 'warning') 
+                                $kasus->status == 'Dikonfirmasi' ? 'primary' :
+                                ($kasus->status == 'Diproses' ? 'info' : 'warning') 
                             }}">
-                                {{ ucfirst($kasus->status_pengaduan) }}
+                                {{ ucfirst($kasus->status) }}
                             </span>
                         </td>
                         <td>
                             <a href="{{ route('admin.tindak_lanjut.detail', ['id' => $kasus->id_kasus]) }}" class="btn btn-info btn-sm">
                                 <i class="fas fa-eye"></i> Detail
                             </a>
-                            @if($kasus->status_pengaduan == 'proses satgas')
+                            @if($kasus->status == 'Diproses')
                                 <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#selesaiModal{{ $kasus->id_kasus }}">
                                     <i class="fas fa-check"></i> Selesai
                                 </button>
@@ -160,7 +160,7 @@
             <form action="{{ route('admin.tindak_lanjut.update_status', $kasus->id_kasus) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <input type="hidden" name="status_pengaduan" value="selesai">
+                <input type="hidden" name="status" value="Selesai">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="penangan_kasus">Penangan Kasus</label>
