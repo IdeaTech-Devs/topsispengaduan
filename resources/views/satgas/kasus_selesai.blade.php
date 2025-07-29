@@ -38,8 +38,10 @@
                         <thead>
                             <tr>
                                 <th>Kode Pengaduan</th>
+                                <th>Judul Pengaduan</th>
+                                <th>Jenis Fasilitas</th>
                                 <th>Pelapor</th>
-                                <th>Jenis Masalah</th>
+                                <th>Tanggal Pengaduan</th>
                                 <th>Tanggal Selesai</th>
                                 <th>Aksi</th>
                             </tr>
@@ -47,12 +49,14 @@
                         <tbody>
                             @foreach($kasusSelesai as $kasus)
                                 <tr>
-                                    <td>{{ $kasus->kasus->no_pengaduan }}</td>
-                                    <td>{{ $kasus->kasus->pelapor->nama_lengkap }}</td>
-                                    <td>{{ ucfirst($kasus->kasus->jenis_masalah) }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($kasus->tanggal_tindak_selesai)->format('d F Y') }}</td>
+                                    <td>{{ $kasus->no_pengaduan }}</td>
+                                    <td>{{ $kasus->judul_pengaduan }}</td>
+                                    <td>{{ ucfirst($kasus->jenis_fasilitas) }}</td>
+                                    <td>{{ $kasus->pelapor->nama_lengkap }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($kasus->tanggal_pengaduan)->format('d/m/Y') }}</td>
+                                    <td>{{ $kasus->tanggal_selesai ? \Carbon\Carbon::parse($kasus->tanggal_selesai)->format('d F Y') : '-' }}</td>
                                     <td>
-                                        <a href="{{ route('satgas.detail_kasus', $kasus->kasus->id_kasus) }}" 
+                                        <a href="{{ route('satgas.detail_kasus', $kasus->id) }}" 
                                            class="btn btn-info btn-sm">
                                             <i class="fas fa-eye"></i> Detail
                                         </a>

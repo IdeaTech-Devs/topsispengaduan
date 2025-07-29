@@ -10,8 +10,8 @@ class AdminSatgasController extends Controller
 {
     public function index()
     {
-        $satgas = Satgas::orderBy('created_at', 'desc')->get();
-        return view('admin.satgas.index', compact('satgas'));
+        $pimpinan = Satgas::orderBy('created_at', 'desc')->get();
+        return view('admin.satgas.index', compact('pimpinan'));
     }
 
     public function create()
@@ -29,28 +29,28 @@ class AdminSatgasController extends Controller
         
         Satgas::create($validated);
         return redirect()->route('admin.satgas.index')
-            ->with('success', 'Data satgas berhasil ditambahkan');
+            ->with('success', 'Data pimpinan berhasil ditambahkan');
     }
 
     public function show($id)
     {
-        $satgas = Satgas::findOrFail($id);
-        $kasusAktif = $satgas->kasus()
+        $pimpinan = Satgas::findOrFail($id);
+        $kasusAktif = $pimpinan->kasus()
             ->where('status', '!=', 'Selesai')
             ->get();
 
-        return view('admin.satgas.show', compact('satgas', 'kasusAktif'));
+        return view('admin.satgas.show', compact('pimpinan', 'kasusAktif'));
     }
 
     public function edit($id)
     {
-        $satgas = Satgas::findOrFail($id);
-        return view('admin.satgas.edit', compact('satgas'));
+        $pimpinan = Satgas::findOrFail($id);
+        return view('admin.satgas.edit', compact('pimpinan'));
     }
 
     public function update(Request $request, $id)
     {
-        $satgas = Satgas::findOrFail($id);
+        $pimpinan = Satgas::findOrFail($id);
         
         $validated = $request->validate([
             'nama' => 'required|string|max:100',
@@ -58,23 +58,23 @@ class AdminSatgasController extends Controller
             'telepon' => 'required|string|max:15'
         ]);
 
-        $satgas->update($validated);
+        $pimpinan->update($validated);
         return redirect()->route('admin.satgas.index')
-            ->with('success', 'Data satgas berhasil diperbarui');
+            ->with('success', 'Data pimpinan berhasil diperbarui');
     }
 
     public function destroy($id)
     {
-        $satgas = Satgas::findOrFail($id);
+        $pimpinan = Satgas::findOrFail($id);
         
-        // Cek apakah satgas masih memiliki kasus aktif
-        if ($satgas->kasus()->where('status', '!=', 'Selesai')->exists()) {
+        // Cek apakah pimpinan masih memiliki kasus aktif
+        if ($pimpinan->kasus()->where('status', '!=', 'Selesai')->exists()) {
             return redirect()->route('admin.satgas.index')
-                ->with('error', 'Tidak dapat menghapus satgas yang masih memiliki kasus aktif');
+                ->with('error', 'Tidak dapat menghapus pimpinan yang masih memiliki kasus aktif');
         }
         
-        $satgas->delete();
+        $pimpinan->delete();
         return redirect()->route('admin.satgas.index')
-            ->with('success', 'Data satgas berhasil dihapus');
+            ->with('success', 'Data pimpinan berhasil dihapus');
     }
 } 

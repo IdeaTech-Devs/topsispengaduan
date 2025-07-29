@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Satgas UNIB - @yield('title', 'Dashboard')</title>
+    <title>Pimpinan UNIB - @yield('title', 'Dashboard')</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -36,7 +36,7 @@
                 <div class="sidebar-brand-icon">
                     <img src="{{asset('assets/img/logo.png')}}" alt="Logo" style="width: 40px; height: 40px;">
                 </div>
-                <div class="sidebar-brand-text mx-3">Satgas UNIB</div>
+                <div class="sidebar-brand-text mx-3">Pimpinan UNIB</div>
             </a>
 
             <!-- Divider -->
@@ -101,10 +101,10 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    {{ $satgas->nama }}
+                                    {{ $pimpinan->nama }}
                                 </span>
                                 <div class="profile-image-container-small">
-                                    <img src="{{ $satgas->foto_profil ? asset('storage/'.$satgas->foto_profil) : asset('assets/img/undraw_profile.svg') }}"
+                                    <img src="{{ $pimpinan->foto_profil ? asset('storage/'.$pimpinan->foto_profil) : asset('assets/img/undraw_profile.svg') }}"
                                          alt="Profile"
                                          class="profile-image">
                                 </div>

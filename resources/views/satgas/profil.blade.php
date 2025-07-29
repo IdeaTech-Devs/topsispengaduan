@@ -35,7 +35,7 @@
 
                     <div class="text-center mb-4">
                         <div class="profile-image-container">
-                            <img src="{{ $satgas->foto_profil ? asset('storage/'.$satgas->foto_profil) : asset('assets/img/undraw_profile.svg') }}" 
+                            <img src="{{ $pimpinan->foto_profil ? asset('storage/'.$pimpinan->foto_profil) : asset('assets/img/undraw_profile.svg') }}" 
                                 class="img-profile rounded-circle" 
                                 id="preview">
                             <div class="camera-icon" onclick="document.getElementById('foto_profil').click()">
@@ -49,7 +49,7 @@
                     <div class="form-group">
                         <label>Nama</label>
                         <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" 
-                               value="{{ old('nama', $satgas->nama) }}" required>
+                               value="{{ old('nama', $pimpinan->nama) }}" required>
                         @error('nama')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -67,7 +67,7 @@
                     <div class="form-group">
                         <label>No. HP</label>
                         <input type="text" name="telepon" class="form-control @error('telepon') is-invalid @enderror" 
-                               value="{{ old('telepon', $satgas->telepon) }}" required>
+                               value="{{ old('telepon', $pimpinan->telepon) }}" required>
                         @error('telepon')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

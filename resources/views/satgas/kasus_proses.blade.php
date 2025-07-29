@@ -46,53 +46,68 @@
                         <thead>
                             <tr>
                                 <th>Kode Pengaduan</th>
-                                <th>Jenis Masalah</th>
+                                <th>Judul Pengaduan</th>
+                                <th>Jenis Fasilitas</th>
                                 <th>Tanggal Pengaduan</th>
-                                <th>Fakultas</th>
+                                <th>Pelapor</th>
                                 <th>Urgensi</th>
-                                <th>Tindak Lanjut</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($kasusProses as $kasus)
                                 <tr>
-                                    <td>{{ $kasus->kasus->no_pengaduan }}</td>
-                                    <td>{{ ucfirst($kasus->kasus->jenis_masalah) }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($kasus->kasus->tanggal_pengaduan)->format('d/m/Y') }}</td>
-                                    <td>{{ $kasus->kasus->asal_fakultas }}</td>
+                                    <td>{{ $kasus->no_pengaduan }}</td>
+                                    <td>{{ $kasus->judul_pengaduan }}</td>
+                                    <td>{{ ucfirst($kasus->jenis_fasilitas) }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($kasus->tanggal_pengaduan)->format('d/m/Y') }}</td>
+                                    <td>{{ $kasus->pelapor->nama_lengkap }}</td>
                                     <td>
-                                        @switch($kasus->kasus->urgensi)
-                                            @case('segera')
-                                                <span class="badge badge-danger">Segera</span>
+                                        @switch($kasus->tingkat_urgensi)
+                                            @case('Tinggi')
+                                                <span class="badge badge-danger">Tinggi</span>
                                                 @break
-                                            @case('dalam beberapa hari')
-                                                <span class="badge badge-warning">Beberapa Hari</span>
+                                            @case('Sedang')
+                                                <span class="badge badge-warning">Sedang</span>
                                                 @break
                                             @default
-                                                <span class="badge badge-info">Tidak Mendesak</span>
+                                                <span class="badge badge-info">Rendah</span>
                                         @endswitch
                                     </td>
-                                    <td>{{ \Carbon\Carbon::parse($kasus->tanggal_tindak_lanjut)->format('d/m/Y') }}</td>
                                     <td>
-                                        <a href="{{ route('satgas.detail_kasus', $kasus->id_kasus) }}" 
+                                        @switch($kasus->status)
+                                            @case('Menunggu')
+                                                <span class="badge badge-warning">Menunggu</span>
+                                                @break
+                                            @case('Diproses')
+                                                <span class="badge badge-primary">Diproses</span>
+                                                @break
+                                            @default
+                                                <span class="badge badge-secondary">{{ $kasus->status }}</span>
+                                        @endswitch
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('satgas.detail_kasus', $kasus->id) }}" 
                                            class="btn btn-info btn-sm">
                                             <i class="fas fa-eye"></i> Detail
                                         </a>
-                                        <button type="button" 
-                                                class="btn btn-success btn-sm"
-                                                data-toggle="modal" 
-                                                data-target="#selesaiModal{{ $kasus->id_kasus }}">
-                                            <i class="fas fa-check"></i> Selesai
-                                        </button>
+                                        @if($kasus->status != 'Selesai')
+                                            <button type="button" 
+                                                    class="btn btn-success btn-sm"
+                                                    data-toggle="modal" 
+                                                    data-target="#selesaiModal{{ $kasus->id }}">
+                                                <i class="fas fa-check"></i> Selesai
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
 
                                 <!-- Modal Selesai -->
-                                <div class="modal" id="selesaiModal{{ $kasus->id_kasus }}" tabindex="-1">
+                                <div class="modal" id="selesaiModal{{ $kasus->id }}" tabindex="-1">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('satgas.update_status_kasus', $kasus->kasus->id_kasus) }}" method="POST">
+                                            <form action="{{ route('satgas.update_status_kasus', $kasus->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="status_tindak_lanjut" value="selesai">
@@ -100,7 +115,7 @@
                                                     <div class="form-group">
                                                         <label for="penangan_kasus">Penangan Kasus</label>
                                                         <input type="text" class="form-control" name="penangan_kasus" 
-                                                               value="{{ $satgas->nama }}" required>
+                                                               value="{{ $pimpinan->nama }}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="catatan_penanganan">Catatan Penanganan</label>

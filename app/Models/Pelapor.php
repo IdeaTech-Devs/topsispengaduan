@@ -15,12 +15,9 @@ class Pelapor extends Model
     protected $fillable = [
         'nama_lengkap', 
         'nama_panggilan', 
-        'fakultas', 
-        'departemen_prodi', 
-        'unit_kerja', 
+        'status_pelapor',
         'email', 
-        'no_wa', 
-        'bukti_identitas'
+        'no_wa'
     ];
 
     public function kasus()

@@ -22,32 +22,22 @@ class SatgasController extends Controller
         $this->middleware('role:satgas');
         
         $this->middleware(function ($request, $next) {
-            $satgas = auth()->user()->satgas;
-            view()->share('satgas', $satgas);
+            $pimpinan = auth()->user()->satgas;
+            view()->share('pimpinan', $pimpinan);
             return $next($request);
         });
     }
 
     public function dashboard()
     {
-        $satgas = auth()->user()->satgas;
+        $pimpinan = auth()->user()->satgas;
         
-        // Hitung statistik kasus
-        $totalKasusBaru = KasusSatgas::where('satgas_id', $satgas ? $satgas->id_satgas : null)
-            ->where('status_penanganan', 'Belum ditangani')
-            ->count();
-            
-        $totalKasusProses = KasusSatgas::where('satgas_id', $satgas ? $satgas->id_satgas : null)
-            ->where('status_penanganan', 'Sedang ditangani')
-            ->count();
-            
-        $totalKasusSelesai = KasusSatgas::where('satgas_id', $satgas ? $satgas->id_satgas : null)
-            ->where('status_penanganan', 'Selesai')
-            ->count();
+        // Hitung statistik kasus berdasarkan status di tabel kasus
+        $totalKasusProses = Kasus::whereIn('status', ['Menunggu', 'Diproses'])->count();
+        $totalKasusSelesai = Kasus::where('status', 'Selesai')->count();
 
         return view('satgas.dashboard', compact(
-            'satgas',
-            'totalKasusBaru',
+            'pimpinan',
             'totalKasusProses',
             'totalKasusSelesai'
         ));
@@ -55,10 +45,8 @@ class SatgasController extends Controller
 
     public function kasusBaru()
     {
-        $satgas = auth()->user()->satgas;
-        $kasusBaru = KasusSatgas::with(['kasus', 'kasus.pelapor'])
-            ->where('satgas_id', $satgas ? $satgas->id_satgas : null)
-            ->where('status_penanganan', 'Belum ditangani')
+        $kasusBaru = Kasus::with(['pelapor'])
+            ->where('status', 'Menunggu')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -67,11 +55,9 @@ class SatgasController extends Controller
 
     public function kasusProses()
     {
-        $satgas = auth()->user()->satgas;
-        $kasusProses = KasusSatgas::with(['kasus', 'kasus.pelapor'])
-            ->where('satgas_id', $satgas ? $satgas->id_satgas : null)
-            ->where('status_penanganan', 'Sedang ditangani')
-            ->orderBy('mulai_penanganan', 'desc')
+        $kasusProses = Kasus::with(['pelapor'])
+            ->whereIn('status', ['Menunggu', 'Diproses'])
+            ->orderBy('tanggal_penanganan', 'desc')
             ->paginate(10);
 
         return view('satgas.kasus_proses', compact('kasusProses'));
@@ -79,11 +65,9 @@ class SatgasController extends Controller
 
     public function kasusSelesai()
     {
-        $satgas = auth()->user()->satgas;
-        $kasusSelesai = KasusSatgas::with(['kasus', 'kasus.pelapor'])
-            ->where('satgas_id', $satgas ? $satgas->id_satgas : null)
-            ->where('status_penanganan', 'Selesai')
-            ->orderBy('selesai_penanganan', 'desc')
+        $kasusSelesai = Kasus::with(['pelapor'])
+            ->where('status', 'Selesai')
+            ->orderBy('tanggal_selesai', 'desc')
             ->paginate(10);
 
         return view('satgas.kasus_selesai', compact('kasusSelesai'));
@@ -91,14 +75,42 @@ class SatgasController extends Controller
 
     public function detailKasus($id)
     {
-        $satgas = auth()->user()->satgas;
-        $kasus = Kasus::with(['pelapor', 'satgas', 'kasusSatgas'])
-            ->whereHas('kasusSatgas', function($query) use ($satgas) {
-                $query->where('satgas_id', $satgas ? $satgas->id_satgas : null);
-            })
+        $kasus = Kasus::with(['pelapor'])
             ->findOrFail($id);
 
         return view('satgas.detail_kasus', compact('kasus'));
+    }
+
+    public function updateStatusKasus(Request $request, $id)
+    {
+        $request->validate([
+            'status_tindak_lanjut' => 'required|in:selesai',
+            'penangan_kasus' => 'required|string',
+            'catatan_penanganan' => 'required|string'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $kasus = Kasus::findOrFail($id);
+
+            // Update status kasus menjadi selesai
+            $kasus->status = 'Selesai';
+            $kasus->tanggal_selesai = Carbon::now();
+            $kasus->catatan_satgas = $request->catatan_penanganan;
+            $kasus->save();
+
+            DB::commit();
+
+            return redirect()->route('satgas.kasus_proses')
+                ->with('success', 'Kasus berhasil diselesaikan');
+                
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error updating kasus status: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat memperbarui status kasus');
+        }
     }
 
     public function updatePenanganan(Request $request, $id)
@@ -152,80 +164,74 @@ class SatgasController extends Controller
             
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Error updating penanganan status: ' . $e->getMessage());
-            return back()->with('error', 'Terjadi kesalahan saat memperbarui status penanganan');
+            Log::error('Error updating penanganan: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat memperbarui penanganan');
         }
     }
 
     public function profil()
     {
-        return view('satgas.profil');
+        $pimpinan = auth()->user()->satgas;
+        return view('satgas.profil', compact('pimpinan'));
     }
 
     public function updateProfil(Request $request)
     {
-        $request->validate([
+        $pimpinan = auth()->user()->satgas;
+        
+        $validated = $request->validate([
             'nama' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email,' . auth()->id(),
-            'telepon' => 'required|string|max:15',
-            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'email' => 'required|email|max:100|unique:satgas,email,'.$pimpinan->id_satgas.',id_satgas',
+            'telepon' => 'required|string|max:15'
         ]);
 
-        try {
-            DB::beginTransaction();
+        $pimpinan->update($validated);
 
-            $user = auth()->user();
-            $user->email = $request->email;
-            $user->save();
-
-            $satgas = $user->satgas;
-            if ($satgas) {
-                $satgas->nama = $request->nama;
-                $satgas->telepon = $request->telepon;
-                if ($request->hasFile('foto_profil')) {
-                    if ($satgas->foto_profil) {
-                        Storage::delete('public/' . $satgas->foto_profil);
-                    }
-                    $path = $request->file('foto_profil')->store('public/profil/satgas');
-                    $satgas->foto_profil = str_replace('public/', '', $path);
-                }
-                $satgas->save();
-            } else {
-                DB::rollBack();
-                return redirect()->route('satgas.profil')
-                    ->with('error', 'Data satgas tidak ditemukan.');
-            }
-
-            DB::commit();
-            return redirect()->route('satgas.profil')
-                ->with('success', 'Profil berhasil diperbarui');
-
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->route('satgas.profil')
-                ->with('error', 'Terjadi kesalahan saat memperbarui profil');
-        }
+        return redirect()->route('satgas.profil')
+            ->with('success', 'Profil berhasil diperbarui');
     }
 
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|string|min:8|confirmed',
+            'password_lama' => 'required|string',
+            'password_baru' => 'required|string|min:8|confirmed'
         ]);
 
         $user = auth()->user();
 
-        if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors([
-                'current_password' => 'Password lama tidak sesuai'
-            ]);
+        if (!Hash::check($request->password_lama, $user->password)) {
+            return redirect()->back()
+                ->withErrors(['password_lama' => 'Password lama tidak sesuai']);
         }
 
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make($request->password_baru);
         $user->save();
 
         return redirect()->route('satgas.profil')
             ->with('success', 'Password berhasil diperbarui');
+    }
+
+    public function updateFotoProfil(Request $request)
+    {
+        $request->validate([
+            'foto_profil' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        $pimpinan = auth()->user()->satgas;
+
+        if ($request->hasFile('foto_profil')) {
+            if ($pimpinan->foto_profil) {
+                Storage::delete('public/' . $pimpinan->foto_profil);
+            }
+            
+            $foto_profil = $request->file('foto_profil')->store('public/foto_profil');
+            $pimpinan->foto_profil = str_replace('public/', '', $foto_profil);
+            $pimpinan->save();
+        }
+
+        return redirect()->route('satgas.profil')
+            ->with('success', 'Foto profil berhasil diperbarui');
     }
 } 

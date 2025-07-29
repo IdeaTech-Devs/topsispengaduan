@@ -8,7 +8,7 @@
         <div class="welcome-message mb-4">
             <div class="alert alert-light border-left-primary">
                 <i class="fas fa-user-shield mr-2"></i>
-                Selamat datang di halaman dashboard Satgas, <strong>{{ $satgas->nama }}</strong>
+                Selamat datang di halaman dashboard Pimpinan, <strong>{{ $pimpinan->nama }}</strong>
             </div>
         </div>
 

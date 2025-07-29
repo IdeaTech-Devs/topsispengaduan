@@ -1,13 +1,13 @@
 @extends('admin.layout')
 
-@section('title', 'Data Satgas')
+@section('title', 'Data Pimpinan')
 
 @section('content')
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Data Satgas</h1>
+        <h1 class="h3 mb-0 text-gray-800">Data Pimpinan</h1>
         <a href="{{ route('admin.satgas.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Tambah Satgas
+            <i class="fas fa-plus"></i> Tambah Pimpinan
         </a>
     </div>
 
@@ -31,7 +31,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Satgas</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Pimpinan</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -74,7 +74,7 @@
                                     <form action="{{ route('admin.satgas.destroy', $s->id_satgas) }}" 
                                           method="POST" 
                                           class="d-inline"
-                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus satgas ini?');">
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus pimpinan ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" 
