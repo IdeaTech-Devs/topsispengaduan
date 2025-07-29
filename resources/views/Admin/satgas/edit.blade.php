@@ -1,12 +1,12 @@
 @extends('admin.layout')
 
-@section('title', 'Edit Satgas')
+@section('title', 'Edit Pimpinan')
 
 @section('content')
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Edit Data Satgas</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Edit Data Pimpinan</h6>
         </div>
         <div class="card-body">
             <form action="{{ route('admin.satgas.update', $satgas->id_satgas) }}" method="POST" enctype="multipart/form-data">
